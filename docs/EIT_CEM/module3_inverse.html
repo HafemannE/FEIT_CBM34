@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 3 - Inverse &mdash; FEIT w documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Module 4 - Auxiliar" href="module4_auxiliar.html" />
+    <link rel="prev" title="Module 2 - Forward" href="module2_forward.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FEIT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">EIT Complete Electrodes Model:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="module1_mesh.html">Module 1 - Mesh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module2_forward.html">Module 2 - Forward</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Module 3 - Inverse</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module3_inverse.InverseProblem"><code class="docutils literal notranslate"><span class="pre">InverseProblem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.solve_inverse"><code class="docutils literal notranslate"><span class="pre">InverseProblem.solve_inverse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.set_answer"><code class="docutils literal notranslate"><span class="pre">InverseProblem.set_answer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.set_NewtonParameters"><code class="docutils literal notranslate"><span class="pre">InverseProblem.set_NewtonParameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.set_NoiseParameters"><code class="docutils literal notranslate"><span class="pre">InverseProblem.set_NoiseParameters()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.set_firstguess"><code class="docutils literal notranslate"><span class="pre">InverseProblem.set_firstguess()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.set_solverconfig"><code class="docutils literal notranslate"><span class="pre">InverseProblem.set_solverconfig()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.set_InnerParameters"><code class="docutils literal notranslate"><span class="pre">InverseProblem.set_InnerParameters()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module4_auxiliar.html">Module 4 - Auxiliar</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">EIT Continous Model:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../EIT_CONT/documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../EIT_CONT/tutorial.html">Tutorial</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FEIT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="documentation.html">Documentation</a></li>
+      <li class="breadcrumb-item active">Module 3 - Inverse</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/EIT_CEM/module3_inverse.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-module3_inverse">
+<span id="module-3-inverse"></span><h1>Module 3 - Inverse<a class="headerlink" href="#module-module3_inverse" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">module3_inverse.</span></span><span class="sig-name descname"><span class="pre">InverseProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_pot_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem" title="Permalink to this definition"></a></dt>
+<dd><p>Inverse Object EIT 2D</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> (<em>mesh</em>) – Any mesh from Fenics module. We recommend from <code class="xref py py-func docutils literal notranslate"><span class="pre">MyMesh()</span></code></p></li>
+<li><p><strong>ele_pos</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">electrodes_position()</span></code>) – Object, list of arrays with position of electrodes.</p></li>
+<li><p><strong>z</strong> (<em>array</em>) – Vector of impedances in electrodes</p></li>
+<li><p><strong>data</strong> (<em>array</em>) – Vector with potencial in electrodes or any other vector.</p></li>
+<li><p><strong>I_all</strong> (<code class="xref py py-func docutils literal notranslate"><span class="pre">current_method()</span></code> or list of arrays) – Current density in each electrode for each measurement</p></li>
+<li><p><strong>l</strong> (<em>int</em>) – Measurements number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">solve_inverse</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_k</span><span class="o">=</span><span class="n">InverseObject</span><span class="o">.</span><span class="n">gamma_k</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.solve_inverse">
+<span class="sig-name descname"><span class="pre">solve_inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.solve_inverse" title="Permalink to this definition"></a></dt>
+<dd><p>Function that solves the inverse problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">select_pot_method</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">solve_inverse</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_answer">
+<span class="sig-name descname"><span class="pre">set_answer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_answer" title="Permalink to this definition"></a></dt>
+<dd><p>“Get and set the answer if we have it.
+It is usefull to determine the best solution reached.
+<code class="xref py py-func docutils literal notranslate"><span class="pre">error_gamma()</span></code> will return you the percentual error in L2.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh0</strong> (<em>mesh</em>) – Any mesh from Fenics module. We recommend from <code class="xref py py-func docutils literal notranslate"><span class="pre">MyMesh()</span></code></p></li>
+<li><p><strong>gamma0</strong> – Finite Element Function</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_NewtonParameters">
+<span class="sig-name descname"><span class="pre">set_NewtonParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_NewtonParameters" title="Permalink to this definition"></a></dt>
+<dd><p>Newton Parameters</p>
+<dl>
+<dt>Kwargs:</dt><dd><ul class="simple">
+<li><p><strong>mu_i</strong> (float): Mu initial (0,1]</p></li>
+<li><p><strong>mumax</strong> (float): mumax (0,1]</p></li>
+<li><p><strong>nu</strong>    (float): Decrease last mu_n</p></li>
+<li><p><strong>R</strong>     (float): Minimal value for mu_n</p></li>
+</ul>
+</dd>
+<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">mu_i</span><span class="o">=</span><span class="mf">0.9</span>      
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">mumax</span><span class="o">=</span><span class="mf">0.999</span>   
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">nu</span><span class="o">=</span><span class="mf">0.99</span>       
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">=</span><span class="mf">0.9</span>         
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_NewtonParameters</span><span class="p">(</span><span class="n">mu_i</span><span class="o">=</span><span class="mf">0.90</span><span class="p">,</span> <span class="n">mumax</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mf">0.985</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="mf">0.90</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_NoiseParameters">
+<span class="sig-name descname"><span class="pre">set_NoiseParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_NoiseParameters" title="Permalink to this definition"></a></dt>
+<dd><p>Noise Parameters to stop with Discrepancy Principle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tau</strong> (<em>float</em>) – Tau for disprance principle [0, infty)</p></li>
+<li><p><strong>noise_level</strong> (<em>float</em>) – Noise_level(%) from data [0,1)</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="o">=</span><span class="mi">0</span>      
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span><span class="o">=</span><span class="mi">0</span>   
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_NoiseParameters</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_firstguess">
+<span class="sig-name descname"><span class="pre">set_firstguess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Cellsgamma_k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_firstguess" title="Permalink to this definition"></a></dt>
+<dd><p>Default parameters for first guess in external step newton.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Cellsgamma_k</strong> (<em>array</em>) – We expect a vector that represents the value of gamma in your cell.</p>
+</dd>
+</dl>
+<dl>
+<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">Cellsgamma_k</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span><span class="o">*</span><span class="mf">0.9</span>      
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_firstguess</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_solverconfig">
+<span class="sig-name descname"><span class="pre">set_solverconfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_solverconfig" title="Permalink to this definition"></a></dt>
+<dd><p>Solver config.</p>
+<dl>
+<dt>Kwargs:</dt><dd><ul class="simple">
+<li><p><strong>weight_value</strong> (bool): Weight function in Jacobian matrix</p></li>
+<li><p><strong>step_limit</strong> (float): Step limit while solve</p></li>
+<li><p><strong>min_v</strong>    (float): Minimal value in element for gamma_k</p></li>
+</ul>
+</dd>
+<dt>Default Parameters:       </dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">weight_value</span><span class="o">=</span><span class="kc">True</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">step_limit</span><span class="o">=</span><span class="mi">5</span>       
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">min_v</span><span class="o">=</span><span class="mf">0.05</span>         
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_solverconfig</span><span class="p">(</span><span class="n">weight_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">step_limit</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">min_v</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_InnerParameters">
+<span class="sig-name descname"><span class="pre">set_InnerParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_InnerParameters" title="Permalink to this definition"></a></dt>
+<dd><p>Inner-step Newton Parameters</p>
+<dl>
+<dt>Kwargs:</dt><dd><ul class="simple">
+<li><p><strong>inner_method</strong> (str): Method to solver inner step newton. Options: ‘Landweber’, ‘CG’, ‘ME’, ‘LM’, ‘Tikhonov’</p></li>
+<li><p><strong>land_a</strong>       (int): Step-size Landweber</p></li>
+<li><p><strong>ME_reg</strong>     (float): Minimal value in element for gamma_k</p></li>
+<li><p><strong>Tik_c0</strong>     (float): Regularization parameter Iterative Tikhonov</p></li>
+<li><p><strong>Tik_q</strong>      (float): Regularization parameter Iterative Tikhonov</p></li>
+<li><p><strong>LM_c0</strong>     (float): Regularization parameter Levenberg-Marquadt</p></li>
+<li><p><strong>LM_q</strong>       (float): Regularization parameter Levenberg-Marquadt</p></li>
+</ul>
+</dd>
+<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">inner_method</span><span class="o">=</span><span class="s1">&#39;Landweber&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">land_a</span><span class="o">=</span><span class="mi">1</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">ME_reg</span><span class="o">=</span><span class="mf">5E-4</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">Tik_c0</span><span class="o">=</span><span class="mi">1</span>    
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">Tik_q</span><span class="o">=</span><span class="mf">0.95</span>  
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">LM_c0</span><span class="o">=</span><span class="mi">1</span>     
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">LM_q</span><span class="o">=</span><span class="mf">0.95</span>   
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_InnerParameters</span><span class="p">(</span><span class="n">inner_method</span><span class="o">=</span><span class="s1">&#39;ME&#39;</span><span class="p">,</span> <span class="n">ME_reg</span><span class="o">=</span><span class="mf">5E-4</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="module2_forward.html" class="btn btn-neutral float-left" title="Module 2 - Forward" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="module4_auxiliar.html" class="btn btn-neutral float-right" title="Module 4 - Auxiliar" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, FEIT&#39;s Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

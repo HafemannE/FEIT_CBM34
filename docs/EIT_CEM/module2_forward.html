@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Module 2 - Forward &mdash; FEIT w documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Module 3 - Inverse" href="module3_inverse.html" />
+    <link rel="prev" title="Module 1 - Mesh" href="module1_mesh.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            FEIT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">EIT Complete Electrodes Model:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="module1_mesh.html">Module 1 - Mesh</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Module 2 - Forward</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module2_forward.current_method"><code class="docutils literal notranslate"><span class="pre">current_method()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module2_forward.GammaCircle"><code class="docutils literal notranslate"><span class="pre">GammaCircle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module2_forward.CellFunction"><code class="docutils literal notranslate"><span class="pre">CellFunction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module2_forward.ForwardProblem"><code class="docutils literal notranslate"><span class="pre">ForwardProblem</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module2_forward.ForwardProblem.solve_forward"><code class="docutils literal notranslate"><span class="pre">ForwardProblem.solve_forward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module2_forward.ForwardProblem.sol_asarray"><code class="docutils literal notranslate"><span class="pre">ForwardProblem.sol_asarray()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module2_forward.ForwardProblem.add_noise"><code class="docutils literal notranslate"><span class="pre">ForwardProblem.add_noise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module2_forward.ForwardProblem.verify_solution_graphs"><code class="docutils literal notranslate"><span class="pre">ForwardProblem.verify_solution_graphs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module2_forward.ForwardProblem.verify_solution_values"><code class="docutils literal notranslate"><span class="pre">ForwardProblem.verify_solution_values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module3_inverse.html">Module 3 - Inverse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module4_auxiliar.html">Module 4 - Auxiliar</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">EIT Continous Model:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../EIT_CONT/documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../EIT_CONT/tutorial.html">Tutorial</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">FEIT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="documentation.html">Documentation</a></li>
+      <li class="breadcrumb-item active">Module 2 - Forward</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/EIT_CEM/module2_forward.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-module2_forward">
+<span id="module-2-forward"></span><h1>Module 2 - Forward<a class="headerlink" href="#module-module2_forward" title="Permalink to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="module2_forward.current_method">
+<span class="sig-prename descclassname"><span class="pre">module2_forward.</span></span><span class="sig-name descname"><span class="pre">current_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module2_forward.current_method" title="Permalink to this definition"></a></dt>
+<dd><p>This function create a numpy array (or a list of arrays) that represent the current density in the electrodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>L</strong> (<em>int</em>) – Number electrodes.</p></li>
+<li><p><strong>l</strong> (<em>int</em>) – Measurements number.</p></li>
+<li><p><strong>method</strong> (<em>int</em>) – Current pattern.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of arrays – Return list with current density in each electrode for each measurement.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Method Values:           </dt><dd><ol class="arabic simple">
+<li><p>1 and -1 in opposite electrodes</p></li>
+<li><p>1 and -1 in adjacent electrodes</p></li>
+<li><p>1 in one electrode and -1/(L-1) for the rest</p></li>
+<li><p>For measureament k, we have: (sin(k*2*pi/16) sin(2*k*2*pi/16) … sin(16*k*2*pi/16))</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">l</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">I_all</span><span class="p">)</span>
+<span class="go">    [array([ 1.,  0., -1.,  0.]),</span>
+<span class="go">    array([ 0.,  1.,  0., -1.]),</span>
+<span class="go">    array([-1.,  0.,  1.,  0.]),</span>
+<span class="go">    array([ 0., -1.,  0.,  1.])]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">l</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">I_all</span><span class="p">)</span>
+<span class="go">    [array([ 1.,  -1., 0.,  0.]),</span>
+<span class="go">    array([ 0.,  1.,  -1., 0.]),</span>
+<span class="go">    array([0.,  0.,  1.,  -1.]),</span>
+<span class="go">    array([ 1., 0.,  0.,  -1.])]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="module2_forward.GammaCircle">
+<span class="sig-prename descclassname"><span class="pre">module2_forward.</span></span><span class="sig-name descname"><span class="pre">GammaCircle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centerx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centery</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module2_forward.GammaCircle" title="Permalink to this definition"></a></dt>
+<dd><p>Function to create a circle in the mesh with some proprieties</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dolfin.cpp.mesh.Mesh</span></code>) – Mesh.</p></li>
+<li><p><strong>in_v</strong> (<em>float</em>) – Value inside circle</p></li>
+<li><p><strong>out_v</strong> (<em>float</em>) – Value outside circle</p></li>
+<li><p><strong>radius</strong> (<em>float</em>) – Circle radius</p></li>
+<li><p><strong>centerx</strong> (<em>float</em>) – Circle center position x</p></li>
+<li><p><strong>centery</strong> (<em>float</em>) – Circle center position y</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array – Return a vector where each position correspond de value of the function in that element.</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh</span><span class="o">=</span><span class="n">mesh_direct</span><span class="p">,</span> <span class="n">in_v</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">out_v</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mf">0.50</span><span class="p">,</span> <span class="n">centerx</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">centery</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ValuesCells0</span><span class="p">)</span>
+<span class="go">[1. 1. 1. ... 1. 1. 1.]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Plot&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gamma0</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_direct</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells0</span><span class="p">);</span>   
+<span class="gp">&gt;&gt;&gt; </span><span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_direct</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_direct</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Resposta gamma&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/gamma.png"><img alt="../_images/gamma.png" src="../_images/gamma.png" style="width: 336.0px; height: 277.5px;" /></a>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="module2_forward.CellFunction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">module2_forward.</span></span><span class="sig-name descname"><span class="pre">CellFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module2_forward.CellFunction" title="Permalink to this definition"></a></dt>
+<dd><p>Auxiliar function to transform an array to a Function
+We use it with <a class="reference internal" href="#module2_forward.GammaCircle" title="module2_forward.GammaCircle"><code class="xref py py-func docutils literal notranslate"><span class="pre">GammaCircle()</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dolfin.cpp.mesh.Mesh</span></code>) – Mesh.</p></li>
+<li><p><strong>values</strong> (<em>array</em>) – Array with values of the function in the cell.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ValuesCells0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span>        <span class="c1">#Define a vector of zeros</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ValuesCells0</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>                                      <span class="c1">#Cell 5 has value 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gamma0</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells0</span><span class="p">);</span><span class="c1">#Get vector and transform in a function cell</span>
+</pre></div>
+</div>
+<p>If you want plot the function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_inverse</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>     <span class="c1">#Space of Finite Elemente descontinuous garlekin degree 0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Q</span><span class="o">=</span><span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span><span class="n">V_DG</span><span class="p">)</span>                     <span class="c1">#Functionspace to interpolate gamma</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gamma0</span><span class="o">=</span><span class="n">interpolate</span><span class="p">(</span><span class="n">gamma0</span><span class="p">,</span> <span class="n">Q</span><span class="p">)</span>                          <span class="c1">#Interpolation gamma to generate a function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">=</span><span class="n">plot</span><span class="p">(</span><span class="n">gamma0</span><span class="p">)</span>                                         <span class="c1">#plot gamma0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plot</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">)</span>                                     <span class="c1">#plot mesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>                                        <span class="c1">#set colorbar.</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/cell_function_test.png"><img alt="../_images/cell_function_test.png" src="../_images/cell_function_test.png" style="width: 307.5px; height: 237.0px;" /></a>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="module2_forward.ForwardProblem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">module2_forward.</span></span><span class="sig-name descname"><span class="pre">ForwardProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module2_forward.ForwardProblem" title="Permalink to this definition"></a></dt>
+<dd><p>Object Forward Problem EIT 2D</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dolfin.cpp.mesh.Mesh</span></code>) – Mesh. We recommend from <code class="xref py py-func docutils literal notranslate"><span class="pre">MyMesh()</span></code></p></li>
+<li><p><strong>z</strong> (<em>array</em>) – Vector of impedances in electrodes</p></li>
+<li><p><strong>electrodes_obj</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">electrodes_position()</span></code>) – Object, list of arrays with position of electrodes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Basic Definitions&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">L</span><span class="o">=</span><span class="mi">16</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">VD</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;CG&#39;</span><span class="p">,</span><span class="n">mesh_direct</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#Space Solution</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>                                        <span class="c1">#Measurements number.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="mf">0.025</span>                              <span class="c1">#Impedance</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">l</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>             <span class="c1">#Current pattern</span>
+</pre></div>
+</div>
+<p>If you need it, see <code class="xref py py-func docutils literal notranslate"><span class="pre">electrodes_position()</span></code>, <a class="reference internal" href="#module2_forward.GammaCircle" title="module2_forward.GammaCircle"><code class="xref py py-func docutils literal notranslate"><span class="pre">GammaCircle()</span></code></a> and <a class="reference internal" href="#module2_forward.CellFunction" title="module2_forward.CellFunction"><code class="xref py py-func docutils literal notranslate"><span class="pre">CellFunction()</span></code></a>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;Solver&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">DirectProblem</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_direct</span><span class="p">,</span>  <span class="n">ele_pos</span><span class="p">,</span>  <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">DirectProblem</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list_U0</span> <span class="o">=</span> <span class="n">DirectProblem</span><span class="o">.</span><span class="n">sol_asarray</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">list_U0</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="p">])</span>
+<span class="go">[ 1.0842557   0.32826713  0.19591977  0.13158264  0.06214628 -0.03412964</span>
+<span class="go"> -0.17331413 -0.40308837 -1.18449889 -0.42369776 -0.21120216 -0.08218106</span>
+<span class="go">  0.01735219  0.10789938  0.20976791  0.37492101]</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="module2_forward.ForwardProblem.solve_forward">
+<span class="sig-name descname"><span class="pre">solve_forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">V</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module2_forward.ForwardProblem.solve_forward" title="Permalink to this definition"></a></dt>
+<dd><p>Solver Forward Problem EIT 2D</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>V</strong> (<em>FiniteElement</em>) – FiniteElement Fenics object</p></li>
+<li><p><strong>gamma</strong> (<a class="reference internal" href="#module2_forward.CellFunction" title="module2_forward.CellFunction"><code class="xref py py-func docutils literal notranslate"><span class="pre">CellFunction()</span></code></a>) – Finite Element Function</p></li>
+<li><p><strong>I_all</strong> (<a class="reference internal" href="#module2_forward.current_method" title="module2_forward.current_method"><code class="xref py py-func docutils literal notranslate"><span class="pre">current_method()</span></code></a> or list of arrays) – Current density in each electrode for each measurement</p></li>
+<li><p><strong>l</strong> (<em>int</em>) – Measurements number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>(Array, Array) – Return a vector where each position correspond de value the solution in the</dt><dd><p>domain, and other solution that contains the potencial in the electrodes. Both are Fenics Objects.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">DirectProblem</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_direct</span><span class="p">,</span>  <span class="n">ele_pos</span><span class="p">,</span>  <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">DirectProblem</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+</pre></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module2_forward.ForwardProblem.sol_asarray">
+<span class="sig-name descname"><span class="pre">sol_asarray</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#module2_forward.ForwardProblem.sol_asarray" title="Permalink to this definition"></a></dt>
+<dd><p>Function that convert potential electrode results in array and concatenate them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Array – Return a vector with potentials values concatenated, dimension: L*l.</p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">list_U0</span> <span class="o">=</span> <span class="n">DirectProblem</span><span class="o">.</span><span class="n">sol_asarray</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module2_forward.ForwardProblem.add_noise">
+<span class="sig-name descname"><span class="pre">add_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">noise_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'uniform'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">42</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module2_forward.ForwardProblem.add_noise" title="Permalink to this definition"></a></dt>
+<dd><p>Function that add noise in the potential values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>array</em>) – Vector with potencial in electrodes or any other vector.</p></li>
+<li><p><strong>level</strong> (<em>float</em>) – Noise level (%), expect values between 0 and 1.</p></li>
+<li><p><strong>noise_type</strong> (<em>str.</em>) – Noise type, uniform or cauchy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array – Return a vector with potentials values concatenated, dimension: L*l and noised.</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">list_U0_noised</span> <span class="o">=</span> <span class="n">DirectProblem</span><span class="o">.</span><span class="n">add_noise</span><span class="p">(</span><span class="n">noise_level</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">noise_type</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module2_forward.ForwardProblem.verify_solution_graphs">
+<span class="sig-name descname"><span class="pre">verify_solution_graphs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sol_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module2_forward.ForwardProblem.verify_solution_graphs" title="Permalink to this definition"></a></dt>
+<dd><p>Function that plot boundary information to verify solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sol_index</strong> (<em>int</em>) – Index for solution, 0 to l.</p></li>
+<li><p><strong>method</strong> (<em>int</em>) – 1, 2 or 3</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>array – Plot boundary.</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">DirectProblem</span><span class="o">.</span><span class="n">verify_solution_graphs</span><span class="p">(</span><span class="n">sol_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module2_forward.ForwardProblem.verify_solution_values">
+<span class="sig-name descname"><span class="pre">verify_solution_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sol_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module2_forward.ForwardProblem.verify_solution_values" title="Permalink to this definition"></a></dt>
+<dd><p>Function that plot boundary information to verify solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sol_index</strong> (<em>int</em>) – Index for solution, 0 to l.</p></li>
+<li><p><strong>method</strong> (<em>int</em>) – 1-Current Value, 2- Average potential on electrodes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>array – values.</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">DirectProblem</span><span class="o">.</span><span class="n">verify_solution_graphs</span><span class="p">(</span><span class="n">sol_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="module1_mesh.html" class="btn btn-neutral float-left" title="Module 1 - Mesh" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="module3_inverse.html" class="btn btn-neutral float-right" title="Module 3 - Inverse" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, FEIT&#39;s Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+.. tutorial
+
+Current Examples
+=========================================
+
+
+This demo is implemented in a single Python file. Download here: :download:`tutorial_current.ipynb`
+
+This demo illustrates how to:
+
+* Define currents in the electrodes.
+
+::
+
+    from EIT_CEM_app import *
+    %matplotlib inline
+
+
+Mesh
+**********************
+
+::
+
+  "Electrodes and Mesh"
+    ele_pos=electrodes_position(L=6, per_cober=0.5, rotate=0)
+    mesh_direct=MyMesh(r=1, n=20, n_in=40, n_out=8, electrodes_obj=ele_pos)
+    plot(mesh_direct);
+
+.. image:: current/mesh.png
+   :scale: 75 %
+
+Defining Gamma function
+****************************************
+
+::
+
+    "Gamma function"
+    ValuesCells0=GammaCircle(mesh_direct,3.0,1.0,0.50, 0.25, 0.25);
+    gamma0=CellFunction(mesh_direct, values=ValuesCells0)
+
+    "Plot"
+    V_DG=FiniteElement('DG',mesh_direct.ufl_cell(),0)
+    gamma_direct=plot_figure(mesh_direct, V_DG, gamma0, name="Gamma");
+    
+.. image:: current/gamma.png
+   :scale: 75 %
+
+
+Forward Problem
+****************************************
+
+::
+
+    "Forward Problem"
+    VD=FiniteElement('CG',mesh_direct.ufl_cell(),1) #Lagrange pol. degree 1
+    L=ele_pos.L
+    l=int(L)                                        #Measurements number.
+    z=np.ones(L)*0.025                              #Impedance
+
+    #Solver
+    ForwardObject=ForwardProblem(mesh_direct,  ele_pos,  z)
+
+Current Examples
+****************************************
+
+
+Method 1
+----------------------
+::
+
+    >>> I_all=current_method(L,l, method=1)           
+    >>> list_u0, list_U0 = ForwardObject.solve_forward(VD, gamma0, I_all, l)
+    This method only accept until L/2 currents, returning L/2 currents.
+    
+::
+    
+    >>> print(np.array(I_all))
+    [[ 1.  0.  0. -1.  0.  0.]
+     [ 0.  1.  0.  0. -1.  0.]
+     [ 0.  0.  1.  0.  0. -1.]]
+    
+::
+    
+    plt.figure(figsize=(10, 10))
+    for i in range(0, int(l/2)):
+        plt.subplot(4,4,i+1)
+        plot(list_u0[i])
+
+.. image:: current/method1.png
+   :scale: 75 %
+
+
+Method 2
+----------------------
+::
+
+    >>> I_all=current_method(L,l, method=2)           
+    >>> list_u0, list_U0 = ForwardObject.solve_forward(VD, gamma0, I_all, l)
+    This method only accept until L/2 currents, returning L/2 currents.
+
+::
+    
+    >>> print(np.array(I_all))
+    [[ 1. -1.  0.  0.  0.  0.]
+     [ 0.  1. -1.  0.  0.  0.]
+     [ 0.  0.  1. -1.  0.  0.]
+     [ 0.  0.  0.  1. -1.  0.]
+     [ 0.  0.  0.  0.  1. -1.]
+     [ 1.  0.  0.  0.  0. -1.]]
+     
+::
+
+    plt.figure(figsize=(10, 10))
+    for i in range(0, int(l)):
+        plt.subplot(4,4,i+1)
+        plot(list_u0[i])
+
+.. image:: current/method2.png
+   :scale: 75 %
+
+Method 3
+----------------------
+::
+
+    >>> I_all=current_method(L,l, method=3)           
+    >>> list_u0, list_U0 = ForwardObject.solve_forward(VD, gamma0, I_all, l)
+    This method only accept until L/2 currents, returning L/2 currents.
+
+::
+
+        >>> np.set_printoptions(precision=5)
+        >>> print(np.array(I_all))
+        [[ 1.  -0.2 -0.2 -0.2 -0.2 -0.2]
+         [-0.2  1.  -0.2 -0.2 -0.2 -0.2]
+         [-0.2 -0.2  1.  -0.2 -0.2 -0.2]
+         [-0.2 -0.2 -0.2  1.  -0.2 -0.2]
+         [-0.2 -0.2 -0.2 -0.2  1.  -0.2]
+         [-0.2 -0.2 -0.2 -0.2 -0.2  1. ]]
+
+::
+
+        plt.figure(figsize=(10, 10))
+        for i in range(0, int(l)):
+            plt.subplot(4,4,i+1)
+            plot(list_u0[i])
+
+.. image:: current/method3.png
+   :scale: 75 %
+
+
+Method 4
+----------------------
+::
+
+    >>> I_all=current_method(L,l, method=4)           
+    >>> list_u0, list_U0 = ForwardObject.solve_forward(VD, gamma0, I_all, l)
+    This method only accept until L/2 currents, returning L/2 currents.
+
+::
+
+        >>> np.set_printoptions(precision=1)
+        >>> print(np.array(I_all))
+        [[ 8.7e-01  8.7e-01  1.2e-16 -8.7e-01 -8.7e-01 -2.4e-16]
+         [ 8.7e-01 -8.7e-01 -2.4e-16  8.7e-01 -8.7e-01 -4.9e-16]
+         [ 1.2e-16 -2.4e-16  3.7e-16 -4.9e-16  2.4e-15 -7.3e-16]
+         [-8.7e-01  8.7e-01 -4.9e-16 -8.7e-01  8.7e-01 -9.8e-16]
+         [-8.7e-01 -8.7e-01  2.4e-15  8.7e-01  8.7e-01 -4.8e-15]
+         [-2.4e-16 -4.9e-16 -7.3e-16 -9.8e-16 -4.8e-15 -1.5e-15]]
+
+::
+
+        plt.figure(figsize=(10, 10))
+        for i in range(0, int(l)):
+            plt.subplot(4,4,i+1)
+            plot(list_u0[i])
+
+.. image:: current/method4.png
+   :scale: 75 %
+   
+
+Setting Diffent Values
+----------------------
+::
+
+    I_all=current_method(L,l, method=2, value=1.337)
+    np.set_printoptions(precision=4)
+
+::
+
+    >>> print(np.array(I_all))
+    [[ 1.337 -1.337  0.     0.     0.     0.   ]
+     [ 0.     1.337 -1.337  0.     0.     0.   ]
+     [ 0.     0.     1.337 -1.337  0.     0.   ]
+     [ 0.     0.     0.     1.337 -1.337  0.   ]
+     [ 0.     0.     0.     0.     1.337 -1.337]
+     [ 1.337  0.     0.     0.     0.    -1.337]]
+
+::
+
+    I_all=current_method(L,l, method=3, value=1.337)
+    np.set_printoptions(precision=4)
+
+::
+
+    >>> print(np.array(I_all))
+    [[ 1.337  -0.2674 -0.2674 -0.2674 -0.2674 -0.2674]
+     [-0.2674  1.337  -0.2674 -0.2674 -0.2674 -0.2674]
+     [-0.2674 -0.2674  1.337  -0.2674 -0.2674 -0.2674]
+     [-0.2674 -0.2674 -0.2674  1.337  -0.2674 -0.2674]
+     [-0.2674 -0.2674 -0.2674 -0.2674  1.337  -0.2674]
+     [-0.2674 -0.2674 -0.2674 -0.2674 -0.2674  1.337 ]]
+
+
+
+My Current
+----------------------
+::
+
+    I_all= [ [5, -3, -1, 1, -2, 0],
+             [1, 1, -1, -1, 0, 0],
+             [8.5, 0, -3.5,0 ,0, -3]]
+    l=len(I_all)
+
+    list_u0, list_U0 = ForwardObject.solve_forward(VD, gamma0, I_all, l)
+    
+::
+    
+    plt.figure(figsize=(10, 10))
+    for i in range(0, l):
+        plt.subplot(4,4,i+1)
+        plot(list_u0[i])
+
+.. image:: current/mycurrent.png
+   :scale: 75 %

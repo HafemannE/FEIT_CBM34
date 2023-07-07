@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creating Functions &mdash; FEIT w documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Current Examples" href="tutorial_current.html" />
+    <link rel="prev" title="Creating mesh and electrodes." href="tutorial_mymesh.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            FEIT
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Installation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation Guide</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">EIT Complete Electrodes Model:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial_quickstart.html">Quick-Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_mymesh.html">Creating mesh and electrodes.</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Creating Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-mesh">Defining Mesh</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gammacircle-and-plot-figure">GammaCircle and plot_figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#combining-two-circles">Combining Two Circles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#refining-the-mesh-for-best-results">Refining the Mesh for Best Results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gammaquad">GammaQuad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-functions-using-expression">Creating Functions Using Expression.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#conditional-expression">Conditional Expression.</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_current.html">Current Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_forward.html">Forward Problem</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial_inverse.html">Inverse Problem</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">EIT Continous Model:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../EIT_CONT/documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../EIT_CONT/tutorial.html">Tutorial</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FEIT</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../tutorial.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Creating Functions</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/EIT_CEM/tutorial/tutorial_createfunc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="creating-functions">
+<h1>Creating Functions<a class="headerlink" href="#creating-functions" title="Permalink to this heading"></a></h1>
+<p>This demo is implemented in a single Python file. <a class="reference download internal" download="" href="../../_downloads/0c4540223cf817f8e6b12ca76a7a24a6/tutorial_createfunc.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">tutorial_createfunc.ipynb</span></code></a></p>
+<p>This demo illustrates how to:</p>
+<ul class="simple">
+<li><p>How to use <code class="xref py py-func docutils literal notranslate"><span class="pre">GammaCircle()</span></code>.</p></li>
+<li><p>Defines its function based on the cells.</p></li>
+<li><p>How to use Expression and Conditional Expression.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">EIT_CEM_app</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</pre></div>
+</div>
+<section id="defining-mesh">
+<h2>Defining Mesh<a class="headerlink" href="#defining-mesh" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Mesh&quot;</span>
+<span class="n">ele_pos</span><span class="o">=</span><span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">mesh_inverse</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
+<span class="n">mesh_forward</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
+
+<span class="s2">&quot;Plot&quot;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Mesh forward&quot;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Mesh inverse&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/mesh1.png"><img alt="../../_images/mesh1.png" src="../../_images/mesh1.png" style="width: 373.5px; height: 187.5px;" /></a>
+<section id="gammacircle-and-plot-figure">
+<h3>GammaCircle and plot_figure<a class="headerlink" href="#gammacircle-and-plot-figure" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
+<span class="n">gamma0</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells0</span><span class="p">);</span>
+
+
+<span class="s2">&quot;Plot&quot;</span>
+<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_forward</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Q</span><span class="o">=</span><span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span><span class="n">V_DG</span><span class="p">)</span>
+<span class="n">gamma0_func</span><span class="o">=</span><span class="n">interpolate</span><span class="p">(</span><span class="n">gamma0</span><span class="p">,</span> <span class="n">Q</span><span class="p">)</span>
+<span class="n">p</span><span class="o">=</span><span class="n">plot</span><span class="p">(</span><span class="n">gamma0_func</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Gamma 0&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="s2">&quot;Plot&quot;</span>
+<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_forward</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gamma 0&quot;</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/gamma0.png"><img alt="../../_images/gamma0.png" src="../../_images/gamma0.png" style="width: 244.5px; height: 198.0px;" /></a>
+</section>
+<section id="combining-two-circles">
+<h3>Combining Two Circles<a class="headerlink" href="#combining-two-circles" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">);</span>
+<span class="n">ValuesCells1</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.30</span><span class="p">);</span>
+<span class="n">gamma1</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells0</span><span class="o">+</span><span class="n">ValuesCells1</span><span class="p">);</span>
+
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gamma 1&quot;</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/gamma1.png"><img alt="../../_images/gamma1.png" src="../../_images/gamma1.png" style="width: 240.0px; height: 198.0px;" /></a>
+</section>
+<section id="refining-the-mesh-for-best-results">
+<h3>Refining the Mesh for Best Results<a class="headerlink" href="#refining-the-mesh-for-best-results" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mesh_forward2</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
+
+<span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_forward2</span><span class="p">,</span><span class="mf">2.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">);</span>
+<span class="n">ValuesCells1</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_forward2</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.30</span><span class="p">);</span>
+<span class="n">gamma2</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_forward2</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells0</span><span class="o">+</span><span class="n">ValuesCells1</span><span class="p">);</span>
+
+<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_forward2</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_forward2</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gamma 2&quot;</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/gamma2.png"><img alt="../../_images/gamma2.png" src="../../_images/gamma2.png" style="width: 240.0px; height: 198.0px;" /></a>
+</section>
+<section id="gammaquad">
+<h3>GammaQuad<a class="headerlink" href="#gammaquad" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">GammaQuad</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">in_v</span><span class="p">,</span> <span class="n">out_v</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span><span class="n">centerx</span><span class="p">,</span> <span class="n">centery</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">ValuesGamma</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span>
+    <span class="n">centerx_new</span> <span class="o">=</span> <span class="n">centerx</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">-</span><span class="n">centery</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">centery_new</span> <span class="o">=</span> <span class="n">centery</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">+</span><span class="n">centerx</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+    <span class="n">centerx</span><span class="p">,</span> <span class="n">centery</span><span class="o">=</span><span class="n">centerx_new</span><span class="p">,</span> <span class="n">centery_new</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">()):</span>
+        <span class="n">cell</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+        <span class="n">vertices</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">get_vertex_coordinates</span><span class="p">())</span>
+        <span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">vertices</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="n">vertices</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span><span class="o">/</span><span class="mi">3</span>
+        <span class="n">y</span><span class="o">=</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">vertices</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="n">vertices</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span><span class="o">/</span><span class="mi">3</span>
+
+        <span class="s2">&quot;rotation&quot;</span>
+        <span class="n">x_new</span><span class="o">=</span><span class="n">x</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">-</span><span class="n">y</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">y_new</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span><span class="o">+</span><span class="n">x</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">x_new</span><span class="p">,</span><span class="n">y_new</span>
+
+
+
+        <span class="k">if</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">a</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">centerx</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">radius</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">1</span><span class="o">/</span><span class="n">b</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">centery</span><span class="p">)</span><span class="o">&gt;=</span><span class="n">radius</span><span class="p">:</span>
+            <span class="n">ValuesGamma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">out_v</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ValuesGamma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">in_v</span>
+
+    <span class="k">return</span> <span class="n">ValuesGamma</span>
+
+
+<span class="n">ValuesCells1</span><span class="o">=</span><span class="n">GammaQuad</span><span class="p">(</span><span class="n">mesh_forward2</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+<span class="n">ValuesCells2</span><span class="o">=</span><span class="n">GammaQuad</span><span class="p">(</span><span class="n">mesh_forward2</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.30</span><span class="p">);</span>
+<span class="n">ValuesCells3</span><span class="o">=</span><span class="n">GammaQuad</span><span class="p">(</span><span class="n">mesh_forward2</span><span class="p">,</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">);</span>
+<span class="n">gamma3</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_forward2</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells1</span><span class="o">+</span><span class="n">ValuesCells2</span><span class="o">+</span><span class="n">ValuesCells3</span><span class="p">);</span>
+
+<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_forward2</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_forward2</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gamma 3&quot;</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/gamma3.png"><img alt="../../_images/gamma3.png" src="../../_images/gamma3.png" style="width: 240.0px; height: 198.0px;" /></a>
+</section>
+<section id="creating-functions-using-expression">
+<h3>Creating Functions Using Expression.<a class="headerlink" href="#creating-functions-using-expression" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">evalinElement</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">cell_number</span><span class="p">):</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">Cell</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">cell_number</span><span class="p">)</span>
+    <span class="n">vertices</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">get_vertex_coordinates</span><span class="p">())</span>
+    <span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">vertices</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="n">vertices</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span><span class="o">/</span><span class="mi">3</span>
+    <span class="n">y</span><span class="o">=</span><span class="p">(</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">vertices</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="n">vertices</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span><span class="o">/</span><span class="mi">3</span>
+
+    <span class="n">result</span><span class="o">=</span><span class="n">u</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">func</span><span class="o">=</span><span class="n">Expression</span><span class="p">(</span><span class="s2">&quot;pow(x[0],2)-x[1]&quot;</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">mesh</span><span class="o">=</span><span class="n">mesh_inverse</span>
+<span class="n">ValuesCells4</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">cell_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">()):</span>
+    <span class="n">ValuesCells4</span><span class="p">[</span><span class="n">cell_index</span><span class="p">]</span><span class="o">=</span><span class="n">evalinElement</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">cell_index</span><span class="p">)</span>
+
+<span class="n">gamma4</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells4</span><span class="p">);</span>
+
+<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma4</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gamma 4&quot;</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/gamma4.png"><img alt="../../_images/gamma4.png" src="../../_images/gamma4.png" style="width: 250.5px; height: 198.0px;" /></a>
+</section>
+<section id="conditional-expression">
+<h3>Conditional Expression.<a class="headerlink" href="#conditional-expression" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">func2</span><span class="o">=</span><span class="n">Expression</span><span class="p">(</span><span class="s2">&quot;x[1]&gt;= 0 &amp; x[0]&gt;=0 ? 2 : 1 &quot;</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">mesh</span><span class="o">=</span><span class="n">mesh_forward2</span>
+<span class="n">ValuesCells5</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">cell_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">()):</span>
+    <span class="n">ValuesCells5</span><span class="p">[</span><span class="n">cell_index</span><span class="p">]</span><span class="o">=</span><span class="n">evalinElement</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">func2</span><span class="p">,</span> <span class="n">cell_index</span><span class="p">)</span>
+
+<span class="n">gamma5</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells5</span><span class="p">);</span>
+
+<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma5</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gamma 5&quot;</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="s2">&quot;inferno&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/gamma5.png"><img alt="../../_images/gamma5.png" src="../../_images/gamma5.png" style="width: 240.0px; height: 198.0px;" /></a>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorial_mymesh.html" class="btn btn-neutral float-left" title="Creating mesh and electrodes." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorial_current.html" class="btn btn-neutral float-right" title="Current Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, FEIT&#39;s Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
