@@ -113,7 +113,11 @@
 <p>This demo illustrates how to:</p>
 <ul>
 <li><p>How to use <code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardProblem</span></code>.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">EIT_CEM_app</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">module1_mesh</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module2_forward</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module3_inverse</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module4_auxiliar</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 </div>
@@ -123,20 +127,21 @@
 <h2>Mesh<a class="headerlink" href="#mesh" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Electrodes and Mesh&quot;</span>
 <span class="n">ele_pos</span><span class="o">=</span><span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">mesh_forward</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">8</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
+<span class="n">mesh_refined</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">8</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">3</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../../_images/mesh3.png"><img alt="../../_images/mesh3.png" src="../../_images/mesh3.png" style="width: 201.75px; height: 198.0px;" /></a>
 </section>
 <section id="defining-gamma-function">
 <h2>Defining Gamma function<a class="headerlink" href="#defining-gamma-function" title="Permalink to this heading"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Gamma function&quot;</span>
-<span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
-<span class="n">gamma0</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells0</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span> <span class="s2">&quot;DG&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">#Define Function space with basis Descontinuous Galerkin</span>
+<span class="n">gamma0</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+<span class="n">gamma0</span><span class="o">.</span><span class="n">vector</span><span class="p">()[:]</span><span class="o">=</span><span class="n">ValuesCells0</span>
+
 
 <span class="s2">&quot;Plot&quot;</span>
-<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_forward</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">gamma_forward</span><span class="o">=</span><span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gamma&quot;</span><span class="p">);</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">gamma0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../../_images/gamma7.png"><img alt="../../_images/gamma7.png" src="../../_images/gamma7.png" style="width: 244.5px; height: 198.0px;" /></a>
@@ -145,15 +150,16 @@
 <h2>Forward Problem<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Forward Problem&quot;</span>
 <span class="n">L</span><span class="o">=</span><span class="mi">16</span>
-<span class="n">VD</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;CG&#39;</span><span class="p">,</span><span class="n">mesh_forward</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#Lagrange pol. degree 1</span>
+<span class="n">VD</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;CG&#39;</span><span class="p">,</span><span class="n">mesh_refined</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#Lagrange pol. degree 1</span>
 <span class="n">l</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>                                        <span class="c1">#Measurements number.</span>
 <span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="mf">0.025E-5</span>                           <span class="c1">#Impedance</span>
 <span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">l</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>    <span class="c1">#Current pattern</span>
 
-<span class="c1">#Solver</span>
-<span class="n">ForwardObject</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span>  <span class="n">ele_pos</span><span class="p">,</span>  <span class="n">z</span><span class="p">)</span>
-<span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-<span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">sol_asarray</span><span class="p">()</span>
+<span class="n">ForwardObject</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="n">VD</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;CG&#39;</span><span class="p">,</span><span class="n">mesh_refined</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#Solution Space Continous Galerkin</span>
+<span class="n">list_u0</span><span class="p">,</span><span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">)</span>
+<span class="n">list_U0</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">list_U0</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
 </pre></div>
 </div>
 </section>

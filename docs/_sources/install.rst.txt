@@ -30,13 +30,6 @@ Online Version
 If you don't want to install any libraries or are just passing through, our codes are also available on Google Colab.
 To use them, access the link below and you will have find the folder containing all the main files. When entering the code, you will be prompted to install FEniCS and import our modules. After this simple process, everything will be up and running.
 
-The codes are not yet available. Please wait.
+`Google Drive folder and Colabs <https://drive.google.com/drive/folders/1F0qPyyH4jbbUh5eacI4wp2cQxr7qv9cf?usp=sharing>`_
 
-Codes
---------------------------------
-
-The codes are not yet available. Please wait.
-
-
-
-
+`Github Page <https://github.com/HafemannE/FEIT_CBM34>`_

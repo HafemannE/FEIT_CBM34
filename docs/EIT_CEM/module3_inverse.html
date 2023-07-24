@@ -54,6 +54,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Module 3 - Inverse</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module3_inverse.InverseProblem"><code class="docutils literal notranslate"><span class="pre">InverseProblem</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.solve_inverse"><code class="docutils literal notranslate"><span class="pre">InverseProblem.solve_inverse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.solve_innerNewton"><code class="docutils literal notranslate"><span class="pre">InverseProblem.solve_innerNewton()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.weight_func"><code class="docutils literal notranslate"><span class="pre">InverseProblem.weight_func()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.set_answer"><code class="docutils literal notranslate"><span class="pre">InverseProblem.set_answer()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.set_NewtonParameters"><code class="docutils literal notranslate"><span class="pre">InverseProblem.set_NewtonParameters()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module3_inverse.InverseProblem.set_NoiseParameters"><code class="docutils literal notranslate"><span class="pre">InverseProblem.set_NoiseParameters()</span></code></a></li>
@@ -104,102 +106,142 @@
 <span id="module-3-inverse"></span><h1>Module 3 - Inverse<a class="headerlink" href="#module-module3_inverse" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="module3_inverse.InverseProblem">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">module3_inverse.</span></span><span class="sig-name descname"><span class="pre">InverseProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_pot_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem" title="Permalink to this definition"></a></dt>
-<dd><p>Inverse Object EIT 2D</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">module3_inverse.</span></span><span class="sig-name descname"><span class="pre">InverseProblem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select_pot_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem" title="Permalink to this definition"></a></dt>
+<dd><p>Inverse Object EIT 2D.</p>
+<p>Class for solving inverse object electrical impedance tomography (EIT) problems in 2D. The inverse problem aims to reconstruct the electrical conductivity distribution within a domain based on measured electrical potentials at the boundary (electrodes).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mesh</strong> (<em>mesh</em>) – Any mesh from Fenics module. We recommend from <code class="xref py py-func docutils literal notranslate"><span class="pre">MyMesh()</span></code></p></li>
-<li><p><strong>ele_pos</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">electrodes_position()</span></code>) – Object, list of arrays with position of electrodes.</p></li>
-<li><p><strong>z</strong> (<em>array</em>) – Vector of impedances in electrodes</p></li>
-<li><p><strong>data</strong> (<em>array</em>) – Vector with potencial in electrodes or any other vector.</p></li>
-<li><p><strong>I_all</strong> (<code class="xref py py-func docutils literal notranslate"><span class="pre">current_method()</span></code> or list of arrays) – Current density in each electrode for each measurement</p></li>
-<li><p><strong>l</strong> (<em>int</em>) – Measurements number.</p></li>
+<li><p><strong>mesh</strong> (<em>mesh</em>) – Any mesh from the Fenics module. We recommend using <code class="xref py py-func docutils literal notranslate"><span class="pre">MyMesh()</span></code>.</p></li>
+<li><p><strong>data</strong> (<em>array</em>) – Vector with the potentials measured at the electrodes or any other vector.</p></li>
+<li><p><strong>I_all</strong> (<code class="xref py py-func docutils literal notranslate"><span class="pre">current_method()</span></code> or list of arrays) – Current density in each electrode for each measurement. It can be a function generated using <code class="xref py py-func docutils literal notranslate"><span class="pre">current_method()</span></code> or a list of arrays.</p></li>
+<li><p><strong>z</strong> (<em>array</em>) – Vector of impedances in electrodes.</p></li>
+<li><p><strong>select_pot_method</strong> (<em>int</em>) – Method to select the potential in the array. 0 - None, 1 - Select method. (Optional, Default: 0)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Example<span class="colon">:</span></dt>
 <dd class="field-even"><p></p></dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<p>Initialize the inverse problem and solve it:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span> <span class="o">=</span> <span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">solve_inverse</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_k</span><span class="o">=</span><span class="n">InverseObject</span><span class="o">.</span><span class="n">gamma_k</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gamma_k</span> <span class="o">=</span> <span class="n">InverseObject</span><span class="o">.</span><span class="n">gamma_k</span>
 </pre></div>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="module3_inverse.InverseProblem.solve_inverse">
 <span class="sig-name descname"><span class="pre">solve_inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.solve_inverse" title="Permalink to this definition"></a></dt>
-<dd><p>Function that solves the inverse problem.</p>
+<dd><p>Solve the inverse problem using a Newton-based method.</p>
+<p>This method is the main solver of the inverse problem. It iteratively solves the inverse EIT problem using a Newton-based method. The solution is stored in the <cite>gamma_k</cite> attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Example<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">select_pot_method</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span> <span class="o">=</span> <span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">solve_inverse</span><span class="p">()</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_answer">
-<span class="sig-name descname"><span class="pre">set_answer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_answer" title="Permalink to this definition"></a></dt>
-<dd><p>“Get and set the answer if we have it.
-It is usefull to determine the best solution reached.
-<code class="xref py py-func docutils literal notranslate"><span class="pre">error_gamma()</span></code> will return you the percentual error in L2.</p>
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.solve_innerNewton">
+<span class="sig-name descname"><span class="pre">solve_innerNewton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Jacobiana_all</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.solve_innerNewton" title="Permalink to this definition"></a></dt>
+<dd><p>Solve the inner step of the Newton method.</p>
+<p>This method is used to solve the inner step of the Newton method. It iteratively updates the solution <cite>gamma_k</cite> using different regularization methods.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mesh0</strong> (<em>mesh</em>) – Any mesh from Fenics module. We recommend from <code class="xref py py-func docutils literal notranslate"><span class="pre">MyMesh()</span></code></p></li>
-<li><p><strong>gamma0</strong> – Finite Element Function</p></li>
+<li><p><strong>Jacobiana_all</strong> (<em>ndarray</em>) – Derivative Matrix generated by <code class="xref py py-func docutils literal notranslate"><span class="pre">Jacobian_calc()</span></code>.</p></li>
+<li><p><strong>b0</strong> (<em>array</em>) – Vector containing the difference between the measured potentials and the potentials calculated with the current guess.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(Array, int, float) – Returns <cite>sk</cite> (the result of the inner step to add to <cite>gamma_k</cite>), <cite>inner_step</cite> (number of inner steps taken), <cite>mu</cite> (regularization parameter used in the method).</p>
+</dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.weight_func">
+<span class="sig-name descname"><span class="pre">weight_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Jacobiana</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.weight_func" title="Permalink to this definition"></a></dt>
+<dd><p>Determine the weights for the derivative matrix and apply them.</p>
+<p>This method determines the weights for the derivative matrix and applies them. The weights are used to improve the convergence of the Newton-based method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Jacobiana</strong> (<em>ndarray</em>) – Derivative Matrix generated by <code class="xref py py-func docutils literal notranslate"><span class="pre">Jacobian_calc()</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>(ndarray) – Returns the derivative matrix with weights.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_answer">
+<span class="sig-name descname"><span class="pre">set_answer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_answer" title="Permalink to this definition"></a></dt>
+<dd><p>Set the exact solution for gamma.</p>
+<p>This method sets the exact solution (gamma0) and its corresponding mesh (mesh0) to be used for comparison and error calculation. This is useful to determine the best solution reached.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gamma0</strong> (<em>Function</em>) – Finite Element Function representing the exact solution for gamma.</p></li>
+<li><p><strong>mesh0</strong> (<code class="xref py py-func docutils literal notranslate"><span class="pre">MyMesh()</span></code>) – Mesh</p></li>
+</ul>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_answer</span><span class="p">(</span><span class="n">gamma0</span><span class="p">,</span> <span class="n">mesh_refined</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_NewtonParameters">
 <span class="sig-name descname"><span class="pre">set_NewtonParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_NewtonParameters" title="Permalink to this definition"></a></dt>
-<dd><p>Newton Parameters</p>
+<dd><p>Set Newton Parameters for the inverse problem.</p>
 <dl>
 <dt>Kwargs:</dt><dd><ul class="simple">
-<li><p><strong>mu_i</strong> (float): Mu initial (0,1]</p></li>
-<li><p><strong>mumax</strong> (float): mumax (0,1]</p></li>
-<li><p><strong>nu</strong>    (float): Decrease last mu_n</p></li>
-<li><p><strong>R</strong>     (float): Minimal value for mu_n</p></li>
+<li><p><strong>mu_i</strong> (float): Initial value for mu (0, 1].</p></li>
+<li><p><strong>mumax</strong> (float): Maximum value for mu (0, 1].</p></li>
+<li><p><strong>nu</strong> (float): Factor to decrease the last mu_n.</p></li>
+<li><p><strong>R</strong> (float): Minimal value for mu_n.</p></li>
 </ul>
 </dd>
-<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">mu_i</span><span class="o">=</span><span class="mf">0.9</span>      
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">mumax</span><span class="o">=</span><span class="mf">0.999</span>   
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">nu</span><span class="o">=</span><span class="mf">0.99</span>       
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="o">=</span><span class="mf">0.9</span>         
+<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">mu_i</span> <span class="o">=</span> <span class="mf">0.9</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">mumax</span> <span class="o">=</span> <span class="mf">0.999</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">nu</span> <span class="o">=</span> <span class="mf">0.99</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">R</span> <span class="o">=</span> <span class="mf">0.9</span>
 </pre></div>
 </div>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Example<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span> <span class="o">=</span> <span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_NewtonParameters</span><span class="p">(</span><span class="n">mu_i</span><span class="o">=</span><span class="mf">0.90</span><span class="p">,</span> <span class="n">mumax</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mf">0.985</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="mf">0.90</span><span class="p">)</span>
 </pre></div>
 </div>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_NoiseParameters">
 <span class="sig-name descname"><span class="pre">set_NoiseParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise_level</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_NoiseParameters" title="Permalink to this definition"></a></dt>
-<dd><p>Noise Parameters to stop with Discrepancy Principle.</p>
+<dd><p>Set Noise Parameters for stopping with the Discrepancy Principle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>tau</strong> (<em>float</em>) – Tau for disprance principle [0, infty)</p></li>
-<li><p><strong>noise_level</strong> (<em>float</em>) – Noise_level(%) from data [0,1)</p></li>
+<li><p><strong>tau</strong> (<em>float</em>) – Tau value for the discrepancy principle [0, ∞).</p></li>
+<li><p><strong>noise_level</strong> (<em>float</em>) – Noise level (%) in the data [0, 1).</p></li>
 </ul>
 </dd>
 </dl>
 <dl>
-<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="o">=</span><span class="mi">0</span>      
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span><span class="o">=</span><span class="mi">0</span>   
+<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">noise_level</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 </div>
 </dd>
@@ -208,7 +250,7 @@ It is usefull to determine the best solution reached.
 <dt class="field-odd">Example<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span> <span class="o">=</span> <span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_NoiseParameters</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -217,14 +259,14 @@ It is usefull to determine the best solution reached.
 <dl class="py method">
 <dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_firstguess">
 <span class="sig-name descname"><span class="pre">set_firstguess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Cellsgamma_k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_firstguess" title="Permalink to this definition"></a></dt>
-<dd><p>Default parameters for first guess in external step newton.</p>
+<dd><p>Set default parameters for the first guess in the external step Newton.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>Cellsgamma_k</strong> (<em>array</em>) – We expect a vector that represents the value of gamma in your cell.</p>
+<dd class="field-odd"><p><strong>Cellsgamma_k</strong> (<em>array</em>) – A vector representing the initial values of gamma in each cell.</p>
 </dd>
 </dl>
 <dl>
-<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">Cellsgamma_k</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span><span class="o">*</span><span class="mf">0.9</span>      
+<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">Cellsgamma_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span> <span class="o">*</span> <span class="mf">0.9</span>
 </pre></div>
 </div>
 </dd>
@@ -233,8 +275,8 @@ It is usefull to determine the best solution reached.
 <dt class="field-odd">Example<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_firstguess</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span><span class="o">*</span><span class="mi">5</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span> <span class="o">=</span> <span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_firstguess</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -242,17 +284,17 @@ It is usefull to determine the best solution reached.
 <dl class="py method">
 <dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_solverconfig">
 <span class="sig-name descname"><span class="pre">set_solverconfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_solverconfig" title="Permalink to this definition"></a></dt>
-<dd><p>Solver config.</p>
+<dd><p>Set Solver configuration for the inverse problem.</p>
 <dl>
 <dt>Kwargs:</dt><dd><ul class="simple">
-<li><p><strong>weight_value</strong> (bool): Weight function in Jacobian matrix</p></li>
-<li><p><strong>step_limit</strong> (float): Step limit while solve</p></li>
-<li><p><strong>min_v</strong>    (float): Minimal value in element for gamma_k</p></li>
+<li><p><strong>weight_value</strong> (bool): Use a weight function in the Jacobian matrix.</p></li>
+<li><p><strong>step_limit</strong> (float): Step limit while solving.</p></li>
+<li><p><strong>min_v</strong> (float): Minimal value in an element for gamma_k.</p></li>
 </ul>
 </dd>
-<dt>Default Parameters:       </dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">weight_value</span><span class="o">=</span><span class="kc">True</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">step_limit</span><span class="o">=</span><span class="mi">5</span>       
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">min_v</span><span class="o">=</span><span class="mf">0.05</span>         
+<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">weight_value</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">step_limit</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">min_v</span> <span class="o">=</span> <span class="mf">0.05</span>
 </pre></div>
 </div>
 </dd>
@@ -261,7 +303,7 @@ It is usefull to determine the best solution reached.
 <dt class="field-odd">Example<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span> <span class="o">=</span> <span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_solverconfig</span><span class="p">(</span><span class="n">weight_value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">step_limit</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">min_v</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -270,25 +312,25 @@ It is usefull to determine the best solution reached.
 <dl class="py method">
 <dt class="sig sig-object py" id="module3_inverse.InverseProblem.set_InnerParameters">
 <span class="sig-name descname"><span class="pre">set_InnerParameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module3_inverse.InverseProblem.set_InnerParameters" title="Permalink to this definition"></a></dt>
-<dd><p>Inner-step Newton Parameters</p>
+<dd><p>Set Inner-step Newton Parameters for the inverse problem.</p>
 <dl>
 <dt>Kwargs:</dt><dd><ul class="simple">
-<li><p><strong>inner_method</strong> (str): Method to solver inner step newton. Options: ‘Landweber’, ‘CG’, ‘ME’, ‘LM’, ‘Tikhonov’</p></li>
-<li><p><strong>land_a</strong>       (int): Step-size Landweber</p></li>
-<li><p><strong>ME_reg</strong>     (float): Minimal value in element for gamma_k</p></li>
-<li><p><strong>Tik_c0</strong>     (float): Regularization parameter Iterative Tikhonov</p></li>
-<li><p><strong>Tik_q</strong>      (float): Regularization parameter Iterative Tikhonov</p></li>
-<li><p><strong>LM_c0</strong>     (float): Regularization parameter Levenberg-Marquadt</p></li>
-<li><p><strong>LM_q</strong>       (float): Regularization parameter Levenberg-Marquadt</p></li>
+<li><p><strong>inner_method</strong> (str): Method to solve the inner step Newton. Options: ‘Landweber’, ‘CG’, ‘ME’, ‘LM’, ‘Tikhonov’.</p></li>
+<li><p><strong>land_a</strong> (int): Step-size for Landweber method.</p></li>
+<li><p><strong>ME_reg</strong> (float): Minimal value in an element for gamma_k.</p></li>
+<li><p><strong>Tik_c0</strong> (float): Regularization parameter for Iterative Tikhonov.</p></li>
+<li><p><strong>Tik_q</strong> (float): Regularization parameter for Iterative Tikhonov.</p></li>
+<li><p><strong>LM_c0</strong> (float): Regularization parameter for Levenberg-Marquardt.</p></li>
+<li><p><strong>LM_q</strong> (float): Regularization parameter for Levenberg-Marquardt.</p></li>
 </ul>
 </dd>
-<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">inner_method</span><span class="o">=</span><span class="s1">&#39;Landweber&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">land_a</span><span class="o">=</span><span class="mi">1</span>    
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">ME_reg</span><span class="o">=</span><span class="mf">5E-4</span> 
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">Tik_c0</span><span class="o">=</span><span class="mi">1</span>    
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">Tik_q</span><span class="o">=</span><span class="mf">0.95</span>  
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">LM_c0</span><span class="o">=</span><span class="mi">1</span>     
-<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">LM_q</span><span class="o">=</span><span class="mf">0.95</span>   
+<dt>Default Parameters:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">inner_method</span> <span class="o">=</span> <span class="s1">&#39;Landweber&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">land_a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">ME_reg</span> <span class="o">=</span> <span class="mf">5E-4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">Tik_c0</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">Tik_q</span> <span class="o">=</span> <span class="mf">0.95</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">LM_c0</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">LM_q</span> <span class="o">=</span> <span class="mf">0.95</span>
 </pre></div>
 </div>
 </dd>
@@ -297,7 +339,7 @@ It is usefull to determine the best solution reached.
 <dt class="field-odd">Example<span class="colon">:</span></dt>
 <dd class="field-odd"><p></p></dd>
 </dl>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span> <span class="o">=</span> <span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">InverseObject</span><span class="o">.</span><span class="n">set_InnerParameters</span><span class="p">(</span><span class="n">inner_method</span><span class="o">=</span><span class="s1">&#39;ME&#39;</span><span class="p">,</span> <span class="n">ME_reg</span><span class="o">=</span><span class="mf">5E-4</span><span class="p">)</span>
 </pre></div>
 </div>

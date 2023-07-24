@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quick Start &mdash; FEIT w documentation</title>
+  <title>Quick-Start &mdash; FEIT w documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -55,7 +55,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../documentation.html">Documentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Quick Start</a><ul>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Quick-Start</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#importing">Importing</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mesh">Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gamma-function">Gamma Function</a></li>
@@ -92,7 +92,7 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../tutorial.html">Tutorial</a></li>
-      <li class="breadcrumb-item active">Quick Start</li>
+      <li class="breadcrumb-item active">Quick-Start</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/EIT_CONT/tutorial/tutorial_quickstart.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -103,7 +103,7 @@
            <div itemprop="articleBody">
              
   <section id="quick-start">
-<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h1>
+<h1>Quick-Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h1>
 <p>This demo is implemented in a single Python file.</p>
 <p>This demo illustrates how to:</p>
 <ul class="simple">
@@ -143,7 +143,6 @@
 <h2>Gamma Function<a class="headerlink" href="#gamma-function" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Defining gamma&quot;</span>
 <span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_direct</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">);</span> <span class="c1">#mesh, value_int, value_ex, radius, certerx, certery.</span>
-<span class="n">gamma0</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_direct</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells0</span><span class="p">);</span> <span class="c1">#Array to CellFunction</span>
 
 <span class="s2">&quot;Plot&quot;</span>
 <span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_inverse</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span> <span class="c1">#Descontinous Galerkin degree 0</span>

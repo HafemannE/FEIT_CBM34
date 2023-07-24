@@ -1,0 +1,35 @@
+.. installation_guide
+
+==========================================
+Installation Guide
+==========================================
+
+Some dependecies: 
+
+`Numpy <https://numpy.org>`_
+
+`Matplotlib <https://matplotlib.org>`_
+
+`FEniCS  <https://fenicsproject.org>`_ 
+
+Desktop
+-------------------------------
+
+Before starting to use the codes, it is necessary to install the mentioned libraries.
+If you have Windows 10, the installation of FEniCS is done in a Linux subsystem of Windows 10, which can be done following the tutorial on the FEniCS website.
+
+`Installing FEniCS <https://fenicsproject.org/download/archive/>`_
+
+Additionally, initially, we recommend using another tool to start your journey. Since the Linux subsystem does not have a visual interface, you can install Jupyter Notebook to facilitate the process. It is an excellent tool for initial development.
+
+`Jupyter  <https://jupyter.org/index.html>`_ 
+
+Online Version
+-------------------------------
+
+If you don't want to install any libraries or are just passing through, our codes are also available on Google Colab.
+To use them, access the links below and you will have find the folder containing all the main files. When entering the code, you will be prompted to install FEniCS and import our modules. After this simple process, everything will be up and running.
+
+`Google Drive folder and Colabs <https://drive.google.com/drive/folders/1F0qPyyH4jbbUh5eacI4wp2cQxr7qv9cf?usp=sharing>`_
+
+`Github Page <https://github.com/HafemannE/FEIT_CBM34>`_

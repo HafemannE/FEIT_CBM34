@@ -111,7 +111,11 @@
 <ul class="simple">
 <li><p>Define currents in the electrodes.</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">EIT_CEM_app</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">module1_mesh</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module2_forward</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module3_inverse</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module4_auxiliar</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 </div>
@@ -123,7 +127,7 @@
   <span class="n">plot</span><span class="p">(</span><span class="n">mesh_direct</span><span class="p">);</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/mesh2.png"><img alt="../../_images/mesh2.png" src="../../_images/mesh2.png" style="width: 201.75px; height: 186.0px;" /></a>
+<a class="reference internal image-reference" href="../../_images/mesh2.png"><img alt="../../_images/mesh2.png" src="../../_images/mesh2.png" style="width: 330.75px; height: 309.75px;" /></a>
 </section>
 <section id="defining-gamma-function">
 <h2>Defining Gamma function<a class="headerlink" href="#defining-gamma-function" title="Permalink to this heading"></a></h2>
@@ -147,7 +151,7 @@
 <span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="mf">0.025</span>                              <span class="c1">#Impedance</span>
 
 <span class="c1">#Solver</span>
-<span class="n">ForwardObject</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_direct</span><span class="p">,</span>  <span class="n">ele_pos</span><span class="p">,</span>  <span class="n">z</span><span class="p">)</span>
+<span class="n">ForwardObject</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_direct</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -156,7 +160,8 @@
 <section id="method-1">
 <h3>Method 1<a class="headerlink" href="#method-1" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">l</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">)</span>
+
 <span class="go">This method only accept until L/2 currents, returning L/2 currents.</span>
 </pre></div>
 </div>
@@ -177,8 +182,7 @@
 <section id="method-2">
 <h3>Method 2<a class="headerlink" href="#method-2" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">l</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-<span class="go">This method only accept until L/2 currents, returning L/2 currents.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">I_all</span><span class="p">))</span>
@@ -201,8 +205,7 @@
 <section id="method-3">
 <h3>Method 3<a class="headerlink" href="#method-3" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">l</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-<span class="go">This method only accept until L/2 currents, returning L/2 currents.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -226,8 +229,7 @@
 <section id="method-4">
 <h3>Method 4<a class="headerlink" href="#method-4" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">l</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-<span class="go">This method only accept until L/2 currents, returning L/2 currents.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">precision</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -284,7 +286,7 @@
          <span class="p">[</span><span class="mf">8.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.5</span><span class="p">,</span><span class="mi">0</span> <span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]]</span>
 <span class="n">l</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">I_all</span><span class="p">)</span>
 
-<span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+<span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>

@@ -96,19 +96,20 @@
 <span id="module-1-mesh"></span><h1>Module 1 - Mesh<a class="headerlink" href="#module-module1_mesh" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="module1_mesh.electrodes_position">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">module1_mesh.</span></span><span class="sig-name descname"><span class="pre">electrodes_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_cober</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotate</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module1_mesh.electrodes_position" title="Permalink to this definition"></a></dt>
-<dd><p>Object that contains the position of the electrodes in boundary.
-The position is stored in function of angle theta initial and final of each electrode.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">module1_mesh.</span></span><span class="sig-name descname"><span class="pre">electrodes_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_cober</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">anticlockwise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module1_mesh.electrodes_position" title="Permalink to this definition"></a></dt>
+<dd><p>Object that contains the position of the electrodes in the boundary.
+The position is stored as the initial and final angles of each electrode.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>L</strong> (<em>int.</em>) – Number electrodes.</p></li>
-<li><p><strong>per_cober</strong> (<em>float.</em>) – Percentual covered lenght in boundary by electrodes, between 0 and 1.</p></li>
-<li><p><strong>rotate</strong> (<em>float.</em>) – Rotation angle in the original solution for electrodes.</p></li>
+<li><p><strong>L</strong> (<em>int</em>) – Number of electrodes.</p></li>
+<li><p><strong>per_cober</strong> (<em>float</em>) – Percentual covered length in the boundary by electrodes, between 0 and 1.</p></li>
+<li><p><strong>rotate</strong> (<em>float</em>) – Rotation angle in the original solution for electrodes (in radians).</p></li>
+<li><p><strong>anticlockwise</strong> (<em>bool</em><em>, </em><em>optional</em><em> (</em><em>default is True</em><em>)</em>) – If True, the electrodes are positioned anticlockwise, else clockwise.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Example<span class="colon">:</span></dt>
-<dd class="field-even"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ele_pos</span><span class="o">=</span><span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<dd class="field-even"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ele_pos</span> <span class="o">=</span> <span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ele_pos</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
 <span class="go">[[0.0, 0.19634954084936207],</span>
 <span class="go"> [0.39269908169872414, 0.5890486225480862],</span>
@@ -126,28 +127,31 @@ The position is stored in function of angle theta initial and final of each elec
 <dl class="py class">
 <dt class="sig sig-object py" id="module1_mesh.MyMesh">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">module1_mesh.</span></span><span class="sig-name descname"><span class="pre">MyMesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_in</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">electrodes_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module1_mesh.MyMesh" title="Permalink to this definition"></a></dt>
-<dd><p>Function that generate the mesh based in the electrodes position</p>
+<dd><p>Function that generates the mesh based on the electrodes’ position.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>r</strong> (<em>float.</em>) – Circle Radius</p></li>
-<li><p><strong>n</strong> (<em>int.</em>) – Refinament parameter</p></li>
-<li><p><strong>n_in</strong> (<em>int</em>) – Vertices number in electrodes</p></li>
-<li><p><strong>n_out</strong> (<em>int</em>) – Vertices number in gaps.</p></li>
-<li><p><strong>electrodes_obj</strong> (<a class="reference internal" href="#module1_mesh.electrodes_position" title="module1_mesh.electrodes_position"><code class="xref py py-class docutils literal notranslate"><span class="pre">electrodes_position()</span></code></a>) – Object.</p></li>
+<li><p><strong>r</strong> (<em>float</em>) – Circle radius.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Refinement parameter.</p></li>
+<li><p><strong>n_in</strong> (<em>int</em><em> or </em><em>list</em><em>[</em><em>int</em><em>]</em>) – Number of vertices on the electrodes.</p></li>
+<li><p><strong>n_out</strong> (<em>int</em><em> or </em><em>list</em><em>[</em><em>int</em><em>]</em>) – Number of vertices in gaps.</p></li>
+<li><p><strong>electrodes_obj</strong> (<a class="reference internal" href="#module1_mesh.electrodes_position" title="module1_mesh.electrodes_position"><code class="xref py py-class docutils literal notranslate"><span class="pre">electrodes_position</span></code></a>) – Object containing the electrodes’ positions.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dolfin.cpp.mesh.Mesh</span></code></p>
 </dd>
 <dt class="field-odd">Example<span class="colon">:</span></dt>
-<dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ele_pos</span><span class="o">=</span><span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh_inverse</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh_forward</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">8</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">6</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
+<dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Generate a mesh for an inverse problem:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ele_pos</span> <span class="o">=</span> <span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh_inverse</span> <span class="o">=</span> <span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#Generate a mesh for generate data with increased refinement:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh_refined</span> <span class="o">=</span> <span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">8</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">6</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
 </dl>
+<p>The resulting mesh can be visualized with other tools.</p>
 <a class="reference internal image-reference" href="../_images/mesh.png"><img alt="../_images/mesh.png" src="../_images/mesh.png" style="width: 373.5px; height: 187.5px;" /></a>
 </dd></dl>
 

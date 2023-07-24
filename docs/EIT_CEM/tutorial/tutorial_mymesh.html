@@ -53,7 +53,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial_quickstart.html">Quick-Start</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Creating mesh and electrodes.</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#my-first-mesh">My first mesh!</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#checking-and-changing-the-electrodes-position">Checking and changing the electrodes position.</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#checking-and-changing-the-electrodes-position">Checking and changing the electrodes position</a></li>
 </ul>
 </li>
 </ul>
@@ -103,7 +103,11 @@
 <ul>
 <li><p>Create mesh based in eletrodes</p></li>
 <li><p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">MyMesh()</span></code> with <code class="xref py py-class docutils literal notranslate"><span class="pre">electrodes_position</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">EIT_CEM_app</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">module1_mesh</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module2_forward</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module3_inverse</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module4_auxiliar</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 </div>
@@ -129,9 +133,7 @@
 </div>
 <a class="reference internal image-reference" href="../../_images/rotate.png"><img alt="../../_images/rotate.png" src="../../_images/rotate.png" style="width: 373.5px; height: 175.5px;" /></a>
 <section id="checking-and-changing-the-electrodes-position">
-<h3>Checking and changing the electrodes position.<a class="headerlink" href="#checking-and-changing-the-electrodes-position" title="Permalink to this heading"></a></h3>
-<section id="verificando-as-posicoes-no-eletrodo">
-<h4>Verificando as posições no eletrodo<a class="headerlink" href="#verificando-as-posicoes-no-eletrodo" title="Permalink to this heading"></a></h4>
+<h3>Checking and changing the electrodes position<a class="headerlink" href="#checking-and-changing-the-electrodes-position" title="Permalink to this heading"></a></h3>
 <p>We can use <cite>electrodes_position.position</cite> to check the initial and final of each electrode:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ele_pos1</span><span class="o">=</span><span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">ele_pos1</span><span class="o">.</span><span class="n">position</span>
@@ -141,9 +143,8 @@
    <span class="p">[</span><span class="mf">4.71238898038469</span><span class="p">,</span> <span class="mf">5.497787143782138</span><span class="p">]]</span>
 </pre></div>
 </div>
-</section>
-<section id="mudando-a-posicao-manualmente">
-<h4>Mudando a posição manualmente.<a class="headerlink" href="#mudando-a-posicao-manualmente" title="Permalink to this heading"></a></h4>
+<section id="changing-manually-electrodes-position">
+<h4>Changing manually electrodes position<a class="headerlink" href="#changing-manually-electrodes-position" title="Permalink to this heading"></a></h4>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Mesh&quot;</span>
 <span class="n">ele_pos1</span><span class="o">=</span><span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">mesh1</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos1</span><span class="p">)</span>

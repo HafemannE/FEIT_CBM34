@@ -55,7 +55,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#electrodes">Electrodes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mesh">Mesh</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#gamma-function">Gamma Function</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#forward-problem">Forward Problem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generating-simulated-data">Generating simulated data</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial_mymesh.html">Creating mesh and electrodes.</a></li>
@@ -99,92 +99,102 @@
              
   <section id="quick-start">
 <h1>Quick-Start<a class="headerlink" href="#quick-start" title="Permalink to this heading"></a></h1>
-<p>This demo is implemented in a single Python file. Download here: <a class="reference download internal" download="" href="../../_downloads/098f1f4bd8d2a84b20a115c9a534d3ba/tutorial_quickstart.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">tutorial_quickstart.ipynb</span></code></a></p>
+<p>This demo is implemented in a single Python file. Download it here: <a class="reference download internal" download="" href="../../_downloads/098f1f4bd8d2a84b20a115c9a534d3ba/tutorial_quickstart.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">tutorial_quickstart.ipynb</span></code></a></p>
 <p>This demo illustrates how to:</p>
 <ul class="simple">
-<li><p>Create mesh based in eletrodes</p></li>
-<li><p>Create functions defined in cells.</p></li>
+<li><p>Create a mesh based on electrodes.</p></li>
+<li><p>Define functions within cells.</p></li>
 <li><p>Define a list of currents used in the experiment.</p></li>
-<li><p>Solve Forward Problem.</p></li>
-<li><p>Solve inverse Problem:</p></li>
+<li><p>Generate simulated data.</p></li>
+<li><p>Solve the Inverse Problem.</p></li>
 </ul>
 <section id="importing">
 <h2>Importing<a class="headerlink" href="#importing" title="Permalink to this heading"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">EIT_CEM_app</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">module1_mesh</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module2_forward</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module3_inverse</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">module4_auxiliar</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 </pre></div>
 </div>
 </section>
 <section id="electrodes">
 <h2>Electrodes<a class="headerlink" href="#electrodes" title="Permalink to this heading"></a></h2>
-<p>O passo inicial para o modelo de eletrodos é definir a região de eletrodos. Para este fim temos a função
-<code class="xref py py-func docutils literal notranslate"><span class="pre">electrodes_position()</span></code> para auxiliar no processo. Espera-se que o dominio seja um círculo, o qual
-é necessário saber o raio. Além disso, pergunta-se o número de eletrodos(L) e a área percentual (per_cober) por eles ocupados.
-Então os eletrodos serão distribuidos igualmente espaçados na fronteira. Ainda é possível rotacionar a solução
-atráves do argumento rotate.:</p>
+<p>The initial step for the complete electrode model (CEM) is to define the electrode region. For this purpose, we have the function
+<code class="xref py py-func docutils literal notranslate"><span class="pre">electrodes_position()</span></code> to assist in the process. It is expected that the domain is a circle, for which the radius
+needs to be known. Additionally, it asks for the number of electrodes (L) and the percentage area (per_cober) they
+occupy. Then, the electrodes will be evenly distributed along the boundary. It is also possible to rotate the solution
+using the ‘rotate’ argument.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Basic Definitions&quot;</span>
 <span class="n">r</span><span class="o">=</span><span class="mi">1</span>            <span class="c1">#Circle radius</span>
 <span class="n">L</span><span class="o">=</span><span class="mi">16</span>           <span class="c1">#Number of Electrodes</span>
 <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span>  <span class="c1">#Percentage of area covered by electrodes</span>
 <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span>       <span class="c1">#Rotation</span>
 
-<span class="c1">#Return a object with angular position of each electrode</span>
+<span class="c1">#Return object with angular position of each electrode</span>
 <span class="n">ele_pos</span><span class="o">=</span><span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">per_cober</span><span class="p">,</span> <span class="n">rotate</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
 <section id="mesh">
 <h2>Mesh<a class="headerlink" href="#mesh" title="Permalink to this heading"></a></h2>
-<p>Segundo passo importante é definir a malha a ser trabalhada tanto para o problema direto e inverso. Essa malha
-é construida em função dos eletrodos. Define-se o refinamento da malha (refine_n), a quantidade de vértices nos eletrodos (n_in)
-e a quantidade de vértices no gaps (n_out). Através da malha gerada, usa-se a função refine() nativa do FENICS
-para realizar o refinamento para a malha do problema direto.:</p>
+<p>The second important step is to define the mesh to be used for generate the simulated data and the inverse problems.
+This mesh is built based on the electrodes. The mesh refinement (refine_n), the number of vertices on the electrodes (n_in),
+and the number of vertices in the gaps (n_out) are specified.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">refine_n</span><span class="o">=</span><span class="mi">8</span> <span class="c1">#Refinement mesh</span>
 <span class="n">n_in</span><span class="o">=</span><span class="mi">8</span>     <span class="c1">#Vertex on elec.</span>
 <span class="n">n_out</span><span class="o">=</span><span class="mi">2</span>    <span class="c1">#Vertex on gaps (Sometimes it is important.)</span>
 
-<span class="n">mesh_inverse</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">refine_n</span><span class="p">,</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">n_out</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">)</span>
-<span class="n">mesh_forward</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">refine_n</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_in</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_out</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">)</span>
+<span class="c1">#Generating Mesh</span>
+<span class="n">mesh</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">refine_n</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="n">n_in</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="n">n_out</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
+<span class="n">mesh_refined</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">refine_n</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="n">n_in</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="n">n_out</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/mesh5.png"><img alt="../../_images/mesh5.png" class="align-center" src="../../_images/mesh5.png" style="width: 415.20000000000005px; height: 207.8px;" /></a>
+<a class="reference internal image-reference" href="../../_images/mesh5.png"><img alt="../../_images/mesh5.png" class="align-center" src="../../_images/mesh5.png" style="width: 617.0px; height: 297.0px;" /></a>
 </section>
 <section id="gamma-function">
 <h2>Gamma Function<a class="headerlink" href="#gamma-function" title="Permalink to this heading"></a></h2>
-<p>Terceiro passo consiste na definição de uma função de condutividade elétrica em função dos elementos da malha.
-Para isso usa-se a função <code class="xref py py-func docutils literal notranslate"><span class="pre">GammaCircle()</span></code> para criar um circulo deslocado da origem de raio 0.5, onde a condutividade
-dentro do círculo é 3.0 e fora dele 1.0. A função anteriormente citada apenas cria um vetor onde cada entrada
-representA o valor da célula em um elemento, a função <code class="xref py py-func docutils literal notranslate"><span class="pre">CellFunction()</span></code> é responsável por transformar em uma Expression,
-sendo utilizada como uma função no FENICS para resolver o sistema variacional, ou seja transformamos um vetor em uma função.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Solution Forward problem&quot;</span>
-<span class="c1">#GammaCircle returns a vector that is a map between elements and their cell values.</span>
-<span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span> <span class="c1">#mesh, cond_in, cond_out, radius, certerx, cerntery</span>
-<span class="n">gamma0</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells0</span><span class="p">);</span>          <span class="c1">#Transform vector to function</span>
+<p>The third step involves defining an electrical conductivity function based on the elements of the mesh.
+For this purpose, the function <code class="xref py py-func docutils literal notranslate"><span class="pre">GammaCircle()</span></code> is used to create a circle displaced from the origin with a radius of 0.3,
+where the conductivity inside the circle is 2.0, and outside it is 1.0. The previously mentioned function merely creates
+a vector where each entry represents the value of the cell in an element. The function is responsible for transforming
+this vector into an Expression, which is used as a function in FENICS to solve the variational system.
+In other words, we convert a vector into a function.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Defining the function gamma in Descontinuous Galerkin</span>
+<span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">);</span> <span class="c1">#mesh, cond_in, cond_out, radius, certerx, cernteryValuesCells0=GammaCircle(mesh_forward,3.0,1.0,0.50, 0.25, 0.25); #mesh, cond_in, cond_out, radius, certerx, cerntery</span>
 </pre></div>
 </div>
-<p>A seguir a solução reconstruida no espaço DG.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Plot&quot;</span>
-<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_forward</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">gamma_direct</span><span class="o">=</span><span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gamma&quot;</span><span class="p">);</span>
+<p>Next, we show the solution in the DG (Discontinuous Galerkin) space.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span> <span class="o">=</span> <span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span> <span class="s2">&quot;DG&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">#Define Function space with basis Descontinuous Galerkin</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+<span class="n">gamma</span><span class="o">.</span><span class="n">vector</span><span class="p">()[:]</span><span class="o">=</span><span class="n">ValuesCells0</span>
+<span class="s2">&quot;Plot&quot;</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="s2">&quot;jet&quot;</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/gamma8.png"><img alt="../../_images/gamma8.png" class="align-center" src="../../_images/gamma8.png" style="width: 271.8px; height: 220.0px;" /></a>
+<a class="reference internal image-reference" href="../../_images/gamma.png"><img alt="../../_images/gamma.png" class="align-center" src="../../_images/gamma.png" style="width: 278.4px; height: 241.79999999999998px;" /></a>
 </section>
-<section id="forward-problem">
-<h2>Forward Problem<a class="headerlink" href="#forward-problem" title="Permalink to this heading"></a></h2>
-<p>Dado as definições anteriores, já é possível seguir para o problema direto. Basta definir o espaço de funções utilizadas, aqui usamos polinômios de lagrange (CG) de primeira
-ordem, número de experimentos (l), a impedancia dos eletrodos (z) e as correntes utilizadas (I_all).:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Forward Problem&quot;</span>
-<span class="c1">#Definições básicas</span>
-<span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="mf">0.025</span>                              <span class="c1">#Impedance of each electrode</span>
-<span class="n">l</span><span class="o">=</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span>                                           <span class="c1">#Numero of experiments</span>
-<span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span> <span class="n">L</span> <span class="p">,</span><span class="n">l</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>           <span class="c1">#Current</span>
+<section id="generating-simulated-data">
+<h2>Generating simulated data<a class="headerlink" href="#generating-simulated-data" title="Permalink to this heading"></a></h2>
+<p>Given the previous definitions, it is now possible to proceed with the data generation.
+We simply need to define the function space used, where we use first-order Lagrange polynomials (CG - Continuous Galerkin),
+the number of experiments (l), the impedance of the electrodes (z), and the currents used (I_all).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Defining impedances, experiments and currents</span>
+<span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="mf">2.5E-5</span>     <span class="c1">#Impedance of each electrode</span>
+<span class="n">l</span><span class="o">=</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span>                   <span class="c1">#Numero of experiments</span>
+<span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span> <span class="n">L</span> <span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">#Current</span>
 <span class="n">VD</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;CG&#39;</span><span class="p">,</span><span class="n">mesh_forward</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#Solution Space Continous Galerkin</span>
 </pre></div>
 </div>
-<p>A função <code class="xref py py-func docutils literal notranslate"><span class="pre">current_method()</span></code> retorna uma array de arrays contendo os valores das correntes nos eletrodos.
-Existem outras correntes e elas podem ser verificadas na documentação. Caso queira outro tipo de corrente para o experimento,
-basta obedecer o mesmo padrão na hora de fornecer as correntes. Se for só um experimento, só é necessário fornecer uma array simples.:</p>
+<p>The function <code class="xref py py-func docutils literal notranslate"><span class="pre">current_method()</span></code> returns an array of arrays containing the values of currents in the electrodes.
+There are other types of currents available, which can be checked in the documentation. If you want to use
+a different type of current for the experiment, you just need to follow the same format when providing the currents.
+If it’s a single experiment, you only need to provide a simple array.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">I_all</span><span class="p">))</span>
 
  <span class="p">[[</span> <span class="mf">1.</span> <span class="o">-</span><span class="mf">1.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span><span class="p">]</span>
@@ -204,60 +214,82 @@ basta obedecer o mesmo padrão na hora de fornecer as correntes. Se for só um e
   <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">1.</span> <span class="o">-</span><span class="mf">1.</span><span class="p">]]</span>
 </pre></div>
 </div>
-<p>Já com as definições do básicas do problema direto, já é possível resolve-lo. Cria-se o objeto do problema direto
-com a classe <code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardProblem</span></code> fornecendo informações como a malha, posição dos eletrodos e as impedancias.
-Após isso usa-se a função .solver_forward() para resolver o problema, usando como argumento o espaço de funções(VD), a função de conduvidade (gamma0),
-as correntes elétricas (I_all) e o número de experimentos (l).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Solver</span>
-<span class="n">ForwardObject</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span>  <span class="n">ele_pos</span><span class="p">,</span>  <span class="n">z</span><span class="p">)</span>
-<span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-<span class="n">list_U0</span> <span class="o">=</span> <span class="n">DirectProblem</span><span class="o">.</span><span class="n">sol_asarray</span><span class="p">()</span>
+<p>With the basic definitions of the direct problem in place, it is now possible to solve it.
+We create the object of the direct problem using the class <code class="xref py py-class docutils literal notranslate"><span class="pre">ForwardProblem</span></code>, providing information such as the mesh,
+electrode positions, and impedances. After that, we use the function .solver_forward() to solve the problem, using the function
+space (VD), the conductivity function (gamma0), the electric currents (I_all) as arguments.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ForwardObject</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="n">VD</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;CG&#39;</span><span class="p">,</span><span class="n">mesh_refined</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#Solution Space Continous Galerkin</span>
+<span class="n">list_u</span><span class="p">,</span><span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
+<span class="n">list_U0</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">list_U0</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>As soluções no domínio podem ser plotadas com os comandos a seguir:</p>
+<p>The solutions in the domain can be plotted using the following commands</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">plot</span><span class="p">(</span><span class="n">list_u0</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/potential.png"><img alt="../../_images/potential.png" class="align-center" src="../../_images/potential.png" style="width: 503.84999999999997px; height: 428.25px;" /></a>
-<p>O valor dos potenciais nos eletrodos está contido no vetor list_U0.:</p>
+<a class="reference internal image-reference" href="../../_images/potential.png"><img alt="../../_images/potential.png" class="align-center" src="../../_images/potential.png" style="width: 673.0px; height: 600.0px;" /></a>
+<p>The values of the potentials at the electrodes are contained in the vector list_U0.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">list_U0</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">L</span><span class="p">])</span>
-<span class="p">[</span> <span class="mf">0.74659668</span> <span class="o">-</span><span class="mf">0.69037383</span> <span class="o">-</span><span class="mf">0.11527343</span> <span class="o">-</span><span class="mf">0.06251943</span> <span class="o">-</span><span class="mf">0.04542257</span> <span class="o">-</span><span class="mf">0.03537776</span>
- <span class="o">-</span><span class="mf">0.02792534</span> <span class="o">-</span><span class="mf">0.02158871</span> <span class="o">-</span><span class="mf">0.01562908</span> <span class="o">-</span><span class="mf">0.00952088</span> <span class="o">-</span><span class="mf">0.00273239</span>  <span class="mf">0.00552806</span>
-  <span class="mf">0.01674227</span>  <span class="mf">0.0342237</span>   <span class="mf">0.0673924</span>   <span class="mf">0.15588032</span><span class="p">]</span>
+<span class="p">[</span> <span class="mf">0.59683392</span> <span class="o">-</span><span class="mf">0.58225101</span> <span class="o">-</span><span class="mf">0.1770248</span>  <span class="o">-</span><span class="mf">0.09720831</span> <span class="o">-</span><span class="mf">0.06548889</span> <span class="o">-</span><span class="mf">0.04681257</span>
+<span class="o">-</span><span class="mf">0.03301847</span> <span class="o">-</span><span class="mf">0.02162958</span> <span class="o">-</span><span class="mf">0.01117799</span> <span class="o">-</span><span class="mf">0.00067388</span>  <span class="mf">0.01052077</span>  <span class="mf">0.02352289</span>
+<span class="mf">0.04025457</span>  <span class="mf">0.06430932</span>  <span class="mf">0.10463569</span>  <span class="mf">0.19520837</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Os rúidos nos dados podem ser introduzidos com as seguintes rotinas.:</p>
+<p>The noise in the data can be introduced using the following routines.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Noise add</span>
-<span class="n">noise_level</span><span class="o">=</span><span class="mf">0.01</span>
+<span class="n">noise_level</span><span class="o">=</span><span class="mf">0.25</span><span class="o">/</span><span class="mi">100</span>
 <span class="n">noise_type</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span>
-<span class="k">if</span> <span class="n">noise_level</span><span class="o">&gt;</span><span class="mf">1E-10</span><span class="p">:</span> <span class="n">list_U0_noised</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">add_noise</span><span class="p">(</span><span class="n">noise_level</span><span class="p">,</span> <span class="n">noise_type</span><span class="p">)</span>
 <span class="n">list_U0_noised</span><span class="o">=</span><span class="n">fn_addnoise</span><span class="p">(</span><span class="n">list_U0</span><span class="p">,</span> <span class="n">noise_level</span><span class="p">,</span> <span class="n">noise_type</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/noise1.png"><img alt="../../_images/noise1.png" class="align-center" src="../../_images/noise1.png" style="width: 521.85px; height: 189.45px;" /></a>
-<p>O problema inverso é simples de resolver quando já se possui os eletrodos, a malha, impedâncias e correntes.
-Basta fornecer um vetor contendo os valores nos eletrodos (list_U0) ao objeto <code class="xref py py-class docutils literal notranslate"><span class="pre">InverseProblem</span></code> e chamar a função
-solve_inverse().</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_solverconfig</span><span class="p">(</span><span class="n">step_limit</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<a class="reference internal image-reference" href="../../_images/noise1.png"><img alt="../../_images/noise1.png" class="align-center" src="../../_images/noise1.png" style="width: 937.5px; height: 262.5px;" /></a>
+<p>The inverse problem is straightforward to solve when you already have the mesh, impedances, and currents.
+You simply need to provide a vector containing the values at the electrodes (list_U0) to the object <code class="xref py py-class docutils literal notranslate"><span class="pre">InverseProblem</span></code>
+and then call the function solve_inverse.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Object&quot;</span>
+<span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+
+<span class="s2">&quot;Solver Parameters&quot;</span>
+<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_InnerParameters</span><span class="p">(</span><span class="n">inner_method</span><span class="o">=</span><span class="s1">&#39;Landweber&#39;</span><span class="p">,</span> <span class="n">land_a</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_solverconfig</span><span class="p">(</span><span class="n">step_limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="s2">&quot;First step&quot;</span>
+<span class="n">gamma_background</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span>
+<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_firstguess</span><span class="p">(</span><span class="n">gamma_background</span><span class="p">)</span>
 
 <span class="s2">&quot;Noise Parameters&quot;</span>
-<span class="n">tau</span><span class="o">=</span><span class="mf">1.2</span>
-<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_NoiseParameters</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="n">tau</span><span class="o">=</span><span class="mf">1.05</span>
+<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_NoiseParameters</span><span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="n">noise_level</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Discrepance stop </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tau</span><span class="o">*</span><span class="n">noise_level</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s2">% residue&quot;</span><span class="p">)</span>
+
+<span class="s2">&quot;Extra data&quot;</span>
+<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_answer</span><span class="p">(</span><span class="n">gamma</span><span class="p">,</span> <span class="n">mesh_refined</span><span class="p">)</span>
+
+<span class="c1">#Solver</span>
 <span class="n">InverseObject</span><span class="o">.</span><span class="n">solve_inverse</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>O resultado pode ser extraido utilizando .gamma_k no objeto. A seguir, o plot da solução.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Plot result&quot;</span>
-<span class="n">gamma_k</span><span class="o">=</span><span class="n">InverseObject</span><span class="o">.</span><span class="n">gamma_k</span>
-<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_inverse</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">gamma_k</span><span class="o">=</span><span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma_k</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">);</span>
+<p>The result can be extracted using .gamma_k on the object. Below is the plot of the solution.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot 2D</span>
+<span class="c1">#Preparing Function</span>
+<span class="n">gamma_k</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">InverseObject</span><span class="o">.</span><span class="n">gamma_all</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">Q_DG</span><span class="o">=</span><span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="s2">&quot;DG&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">gamma_cell</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">Q_DG</span><span class="p">)</span>
+<span class="n">gamma_cell</span><span class="o">.</span><span class="n">vector</span><span class="p">()[:]</span><span class="o">=</span><span class="n">gamma_k</span>          <span class="c1">#Transform vector to function</span>
+
+<span class="c1">#Plotting</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">gamma_cell</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="s2">&quot;jet&quot;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/gamma_ans.png"><img alt="../../_images/gamma_ans.png" class="align-center" src="../../_images/gamma_ans.png" style="width: 489.59999999999997px; height: 190.35px;" /></a>
+<a class="reference internal image-reference" href="../../_images/gamma_ans.png"><img alt="../../_images/gamma_ans.png" class="align-center" src="../../_images/gamma_ans.png" style="width: 541.0px; height: 214.5px;" /></a>
 </section>
 </section>
 

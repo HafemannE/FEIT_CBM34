@@ -67,7 +67,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#getting-results">Getting Results</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fancy-plot">Fancy plot</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#potencial-in-first-measurement">Potencial in first measurement.</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#plot-error-and-residue">Plot error and residue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#plot-error-and-residual">Plot error and residual</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#summary-data">Summary data</a></li>
 </ul>
 </li>
@@ -123,44 +123,44 @@
 <h2>Mesh<a class="headerlink" href="#mesh" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Electrodes and Mesh&quot;</span>
 <span class="n">ele_pos</span><span class="o">=</span><span class="n">electrodes_position</span><span class="p">(</span><span class="n">L</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">per_cober</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">mesh_forward</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
+<span class="n">mesh_refined</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
 <span class="n">mesh_inverse</span><span class="o">=</span><span class="n">MyMesh</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">electrodes_obj</span><span class="o">=</span><span class="n">ele_pos</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Mesh Forward&quot;</span><span class="p">);</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Mesh Refined&quot;</span><span class="p">);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Mesh Inverse&quot;</span><span class="p">);</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/mesh4.png"><img alt="../../_images/mesh4.png" src="../../_images/mesh4.png" style="width: 373.5px; height: 187.5px;" /></a>
+<a class="reference internal image-reference" href="../../_images/mesh4.png"><img alt="../../_images/mesh4.png" src="../../_images/mesh4.png" style="width: 519.0px; height: 260.25px;" /></a>
 </section>
 <section id="defining-gamma-function">
 <h2>Defining Gamma function<a class="headerlink" href="#defining-gamma-function" title="Permalink to this heading"></a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Gamma function&quot;</span>
-<span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
-<span class="n">gamma0</span><span class="o">=</span><span class="n">CellFunction</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">ValuesCells0</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ValuesCells0</span><span class="o">=</span><span class="n">GammaCircle</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">);</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span> <span class="s2">&quot;DG&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="c1">#Define Function space with basis Descontinuous Galerkin</span>
+<span class="n">gamma0</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span>
+<span class="n">gamma0</span><span class="o">.</span><span class="n">vector</span><span class="p">()[:]</span><span class="o">=</span><span class="n">ValuesCells0</span>
 
 <span class="s2">&quot;Plot&quot;</span>
-<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_forward</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">gamma_forward</span><span class="o">=</span><span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gamma&quot;</span><span class="p">);</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">gamma0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/gamma7.png"><img alt="../../_images/gamma7.png" src="../../_images/gamma7.png" style="width: 244.5px; height: 198.0px;" /></a>
+<a class="reference internal image-reference" href="../../_images/gamma9.png"><img alt="../../_images/gamma9.png" src="../../_images/gamma9.png" style="width: 393.75px; height: 313.5px;" /></a>
 </section>
 <section id="forward-problem">
 <h2>Forward Problem<a class="headerlink" href="#forward-problem" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Forward Problem&quot;</span>
-<span class="n">VD</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;CG&#39;</span><span class="p">,</span><span class="n">mesh_forward</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#Lagrange pol. degree 1</span>
+<span class="n">VD</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;CG&#39;</span><span class="p">,</span><span class="n">mesh_refined</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#Lagrange pol. degree 1</span>
 <span class="n">L</span><span class="o">=</span><span class="mi">16</span>                                            <span class="c1">#Electrodes number</span>
 <span class="n">l</span><span class="o">=</span><span class="mi">15</span>                                             <span class="c1">#Measurements number.</span>
 <span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">*</span><span class="mf">0.025</span>                              <span class="c1">#Impedance</span>
 <span class="n">I_all</span><span class="o">=</span><span class="n">current_method</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">l</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>    <span class="c1">#Current pattern</span>
 
 <span class="c1">#Solver</span>
-<span class="n">ForwardObject</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_forward</span><span class="p">,</span>  <span class="n">ele_pos</span><span class="p">,</span>  <span class="n">z</span><span class="p">)</span>
-<span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+<span class="n">ForwardObject</span><span class="o">=</span><span class="n">ForwardProblem</span><span class="p">(</span><span class="n">mesh_refined</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="n">list_u0</span><span class="p">,</span> <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">solve_forward</span><span class="p">(</span><span class="n">VD</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">gamma0</span><span class="p">)</span>
 <span class="n">list_U0</span> <span class="o">=</span> <span class="n">ForwardObject</span><span class="o">.</span><span class="n">sol_asarray</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -196,15 +196,15 @@
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/plot_noise.png"><img alt="../../_images/plot_noise.png" src="../../_images/plot_noise.png" style="width: 619.5px; height: 227.25px;" /></a>
+<a class="reference internal image-reference" href="../../_images/plot_noise.png"><img alt="../../_images/plot_noise.png" src="../../_images/plot_noise.png" style="width: 861.0px; height: 321.0px;" /></a>
 </section>
 <section id="inverse-object-and-parameters">
 <h3>Inverse Object and Parameters<a class="headerlink" href="#inverse-object-and-parameters" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Object&quot;</span>
-<span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">ele_pos</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">l</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">select_pot_method</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">InverseObject</span><span class="o">=</span><span class="n">InverseProblem</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">list_U0_noised</span><span class="p">,</span> <span class="n">I_all</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">select_pot_method</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="s2">&quot;Solver Parameters&quot;</span>
-<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_solverconfig</span><span class="p">(</span><span class="n">step_limit</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_solverconfig</span><span class="p">(</span><span class="n">step_limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">InverseObject</span><span class="o">.</span><span class="n">set_NewtonParameters</span><span class="p">(</span><span class="n">mu_i</span><span class="o">=</span><span class="mf">0.90</span><span class="p">,</span> <span class="n">mumax</span><span class="o">=</span><span class="mf">0.999</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="c1">#InverseObject.set_InnerParameters(inner_method=&#39;Landweber&#39;, land_a=20)</span>
 <span class="n">InverseObject</span><span class="o">.</span><span class="n">set_InnerParameters</span><span class="p">(</span><span class="n">inner_method</span><span class="o">=</span><span class="s1">&#39;ME&#39;</span><span class="p">,</span> <span class="n">ME_reg</span><span class="o">=</span><span class="mf">1E-4</span><span class="p">)</span>
@@ -212,16 +212,18 @@
 <span class="c1">#InverseObject.set_InnerParameters(inner_method=&#39;LM&#39;, LM_c0=0.95, LM_q=0.5)</span>
 <span class="c1">#InverseObject.set_InnerParameters(inner_method=&#39;Tikhonov&#39;, Tik_c0=0.95, Tik_q=0.1)</span>
 
-<span class="s2">&quot;Noise Parameters&quot;</span>
-<span class="n">tau</span><span class="o">=</span><span class="mf">1.15</span>
-<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_NoiseParameters</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Discrepance stop </span><span class="si">{</span><span class="n">tau</span><span class="o">*</span><span class="n">noise_level</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% residue&quot;</span><span class="p">)</span>
+<span class="c1">#First step</span>
+<span class="n">MyCellsgamma_k</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="o">.</span><span class="n">num_cells</span><span class="p">())</span><span class="o">*</span><span class="mf">1.0</span>
+<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_firstguess</span><span class="p">(</span><span class="n">MyCellsgamma_k</span><span class="p">)</span>
 
 <span class="s2">&quot;Noise Parameters&quot;</span>
-<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_answer</span><span class="p">(</span><span class="n">gamma0</span><span class="p">,</span> <span class="n">mesh_forward</span><span class="p">)</span>
+<span class="n">tau</span><span class="o">=</span><span class="mf">1.15</span>
+<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_NoiseParameters</span><span class="p">(</span><span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">noise_level</span><span class="o">=</span><span class="n">noise_level</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Discrepance stop </span><span class="si">{</span><span class="n">tau</span><span class="o">*</span><span class="n">noise_level</span><span class="o">*</span><span class="mi">100</span><span class="si">}</span><span class="s2">% residual&quot;</span><span class="p">)</span>
+
+<span class="s2">&quot;Noise Parameters&quot;</span>
+<span class="n">InverseObject</span><span class="o">.</span><span class="n">set_answer</span><span class="p">(</span><span class="n">gamma0</span><span class="p">,</span> <span class="n">mesh_refined</span><span class="p">)</span>
 <span class="n">InverseObject</span><span class="o">.</span><span class="n">weight_value</span><span class="o">=</span><span class="kc">True</span>
-<span class="c1">#MyCellsgamma_k=np.ones(mesh_inverse.num_cells())*2.0</span>
-<span class="c1">#InverseObject.set_firstguess(MyCellsgamma_k)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Solver</span>
@@ -243,31 +245,44 @@
 <span class="n">error_vec</span><span class="o">=</span><span class="n">InverseObject</span><span class="o">.</span><span class="n">error_vec</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Plot result&quot;</span>
-<span class="n">V_DG</span><span class="o">=</span><span class="n">FiniteElement</span><span class="p">(</span><span class="s1">&#39;DG&#39;</span><span class="p">,</span><span class="n">mesh_inverse</span><span class="o">.</span><span class="n">ufl_cell</span><span class="p">(),</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">gamma_k</span><span class="o">=</span><span class="n">plot_figure</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="n">V_DG</span><span class="p">,</span> <span class="n">gamma_k</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">);</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#Plot 2D</span>
+<span class="c1">#Preparing Function</span>
+<span class="n">Q_DG</span><span class="o">=</span><span class="n">FunctionSpace</span><span class="p">(</span><span class="n">mesh_inverse</span><span class="p">,</span> <span class="s2">&quot;DG&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">gamma_cell</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">Q_DG</span><span class="p">)</span>
+<span class="n">gamma_cell</span><span class="o">.</span><span class="n">vector</span><span class="p">()[:]</span><span class="o">=</span><span class="n">gamma_k</span><span class="o">.</span><span class="n">vector</span><span class="p">()[:]</span>          <span class="c1">#Transform vector to function</span>
+
+<span class="c1">#Plotting</span>
+<span class="n">plot_figure</span><span class="p">(</span><span class="n">gamma_cell</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">map</span><span class="o">=</span><span class="s2">&quot;jet&quot;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/gammares.png"><img alt="../../_images/gammares.png" src="../../_images/gammares.png" style="width: 240.0px; height: 198.0px;" /></a>
+<a class="reference internal image-reference" href="../../_images/gammares.png"><img alt="../../_images/gammares.png" src="../../_images/gammares.png" style="width: 348.0px; height: 291.75px;" /></a>
 <section id="fancy-plot">
 <h3>Fancy plot<a class="headerlink" href="#fancy-plot" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;Fancy plot&quot;</span>
 <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;jet&#39;</span>
 <span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
-<span class="n">p</span><span class="o">=</span><span class="n">plot</span><span class="p">(</span><span class="n">gamma_forward</span><span class="p">);</span>
+<span class="n">p</span><span class="o">=</span><span class="n">plot</span><span class="p">(</span><span class="n">gamma0</span><span class="p">);</span>
 <span class="n">p</span><span class="o">.</span><span class="n">set_cmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">fraction</span><span class="o">=</span><span class="mf">0.046</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.0</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
 <span class="n">p</span><span class="o">=</span><span class="n">plot</span><span class="p">(</span><span class="n">gamma_k</span><span class="p">);</span>
 <span class="n">p</span><span class="o">.</span><span class="n">set_cmap</span><span class="p">(</span><span class="n">cmap</span><span class="p">);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">fraction</span><span class="o">=</span><span class="mf">0.046</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.0</span><span class="p">);</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">cmap</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">box</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/gammaresfancy.png"><img alt="../../_images/gammaresfancy.png" src="../../_images/gammaresfancy.png" style="width: 480.0px; height: 198.0px;" /></a>
+<a class="reference internal image-reference" href="../../_images/gammaresfancy.png"><img alt="../../_images/gammaresfancy.png" src="../../_images/gammaresfancy.png" style="width: 666.75px; height: 277.5px;" /></a>
 </section>
 <section id="potencial-in-first-measurement">
 <h3>Potencial in first measurement.<a class="headerlink" href="#potencial-in-first-measurement" title="Permalink to this heading"></a></h3>
@@ -280,16 +295,16 @@
 <span class="n">data</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/potentialelectodes.png"><img alt="../../_images/potentialelectodes.png" src="../../_images/potentialelectodes.png" style="width: 145.5px; height: 352.5px;" /></a>
+<a class="reference internal image-reference" href="../../_images/potentialelectodes.png"><img alt="../../_images/potentialelectodes.png" src="../../_images/potentialelectodes.png" style="width: 174.0px; height: 423.0px;" /></a>
 </section>
-<section id="plot-error-and-residue">
-<h3>Plot error and residue<a class="headerlink" href="#plot-error-and-residue" title="Permalink to this heading"></a></h3>
+<section id="plot-error-and-residual">
+<h3>Plot error and residual<a class="headerlink" href="#plot-error-and-residual" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">));</span>
-<span class="s2">&quot;Residue Plot&quot;</span>
+<span class="s2">&quot;Residual Plot&quot;</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Residue (%)&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Residual (%)&#39;</span><span class="p">);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Step&#39;</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Residue&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Residual&#39;</span><span class="p">);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">res_vec</span><span class="p">)),</span> <span class="n">res_vec</span><span class="p">);</span>
 
 <span class="s2">&quot;Error plot&quot;</span>
@@ -300,18 +315,18 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">error_vec</span><span class="p">)),</span> <span class="n">error_vec</span><span class="p">);</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/graphres.png"><img alt="../../_images/graphres.png" src="../../_images/graphres.png" style="width: 537.75px; height: 208.5px;" /></a>
+<a class="reference internal image-reference" href="../../_images/graphres.png"><img alt="../../_images/graphres.png" src="../../_images/graphres.png" style="width: 747.0px; height: 294.75px;" /></a>
 </section>
 <section id="summary-data">
 <h3>Summary data<a class="headerlink" href="#summary-data" title="Permalink to this heading"></a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">summary_data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">error_vec</span><span class="p">,</span> <span class="n">res_vec</span><span class="p">,</span> <span class="n">innerstep_vec</span><span class="p">,</span> <span class="n">mun_vec</span><span class="p">))</span>
 <span class="n">data</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">summary_data</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-<span class="n">experiments</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Error (%)&quot;</span><span class="p">,</span> <span class="s2">&quot;Residue (%) &quot;</span><span class="p">,</span> <span class="s2">&quot;Inner Step&quot;</span><span class="p">,</span> <span class="s2">&quot;mu_n&quot;</span><span class="p">]</span>
+<span class="n">experiments</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Error (%)&quot;</span><span class="p">,</span> <span class="s2">&quot;Residual (%) &quot;</span><span class="p">,</span> <span class="s2">&quot;Inner Step&quot;</span><span class="p">,</span> <span class="s2">&quot;mu_n&quot;</span><span class="p">]</span>
 <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">experiments</span>
 <span class="n">data</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/summary.png"><img alt="../../_images/summary.png" src="../../_images/summary.png" style="width: 272.25px; height: 551.25px;" /></a>
+<a class="reference internal image-reference" href="../../_images/summary.png"><img alt="../../_images/summary.png" src="../../_images/summary.png" style="width: 342.75px; height: 574.5px;" /></a>
 </section>
 </section>
 </section>

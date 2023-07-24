@@ -1,0 +1,12 @@
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+*.pyc
+
+.vscode
+
+#Ignore any image
+CBM/**/*.png
+CBM/**/*.data
+CBM/**/*.mat
+CBM/**/*.pdf
+CBM/**/*.jpg

@@ -56,6 +56,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#module4_auxiliar.plot_figure"><code class="docutils literal notranslate"><span class="pre">plot_figure()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module4_auxiliar.getBoundaryVertex"><code class="docutils literal notranslate"><span class="pre">getBoundaryVertex()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module4_auxiliar.plot_boundary"><code class="docutils literal notranslate"><span class="pre">plot_boundary()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module4_auxiliar.plot_electrodes"><code class="docutils literal notranslate"><span class="pre">plot_electrodes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module4_auxiliar.EstimateDelta"><code class="docutils literal notranslate"><span class="pre">EstimateDelta()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module4_auxiliar.ConvertingData"><code class="docutils literal notranslate"><span class="pre">ConvertingData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module4_auxiliar.EstimateCond"><code class="docutils literal notranslate"><span class="pre">EstimateCond()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module4_auxiliar.EstimateCondIterative"><code class="docutils literal notranslate"><span class="pre">EstimateCondIterative()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -97,20 +102,188 @@
 <span id="module-4-auxiliar"></span><h1>Module 4 - Auxiliar<a class="headerlink" href="#module-module4_auxiliar" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="module4_auxiliar.plot_figure">
-<span class="sig-prename descclassname"><span class="pre">module4_auxiliar.</span></span><span class="sig-name descname"><span class="pre">plot_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inferno'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module4_auxiliar.plot_figure" title="Permalink to this definition"></a></dt>
-<dd><p>Plot figure function.</p>
+<span class="sig-prename descclassname"><span class="pre">module4_auxiliar.</span></span><span class="sig-name descname"><span class="pre">plot_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'inferno'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module4_auxiliar.plot_figure" title="Permalink to this definition"></a></dt>
+<dd><p>Plot a given function with an optional color map and save the plot if specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">dolfin.function.Function</span></code>) – The function to plot.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The title of the plot.</p></li>
+<li><p><strong>save</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, save the plot with the title as the filename.</p></li>
+<li><p><strong>colormap</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the colormap to use for the plot.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot_figure</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;Potential Field&quot;</span><span class="p">,</span> <span class="n">save</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="module4_auxiliar.getBoundaryVertex">
 <span class="sig-prename descclassname"><span class="pre">module4_auxiliar.</span></span><span class="sig-name descname"><span class="pre">getBoundaryVertex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module4_auxiliar.getBoundaryVertex" title="Permalink to this definition"></a></dt>
-<dd><p>Get boundary vertex and calculate the function u in that point</p>
+<dd><p>Get the values of a function <cite>u</cite> at the boundary vertices of a given <cite>mesh</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> (<em>Mesh</em>) – The input mesh.</p></li>
+<li><p><strong>u</strong> (<em>Function</em>) – The function to evaluate at the boundary vertices.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of function values at the boundary vertices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="module4_auxiliar.plot_boundary">
 <span class="sig-prename descclassname"><span class="pre">module4_auxiliar.</span></span><span class="sig-name descname"><span class="pre">plot_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'boundary'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module4_auxiliar.plot_boundary" title="Permalink to this definition"></a></dt>
-<dd><p>Plot boundary of the function.</p>
+<dd><p>Plot the boundary of a mesh along with <cite>data</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> (<em>Mesh</em>) – The mesh to plot.</p></li>
+<li><p><strong>data</strong> (<em>numpy.ndarray</em>) – The data to plot on the boundary.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – The name of the plot (default ‘boundary’).</p></li>
+<li><p><strong>line</strong> (<em>int</em>) – The line width for plotting (default 2).</p></li>
+<li><p><strong>data2</strong> (<em>int</em><em> or </em><em>numpy.ndarray</em>) – Additional data to plot (default 1).</p></li>
+<li><p><strong>save</strong> (<em>bool</em>) – Whether to save the plot (default False).</p></li>
+<li><p><strong>plot</strong> (<em>bool</em>) – Whether to display the plot (default True).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The boundary plot as a numpy array.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="module4_auxiliar.plot_electrodes">
+<span class="sig-prename descclassname"><span class="pre">module4_auxiliar.</span></span><span class="sig-name descname"><span class="pre">plot_electrodes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth_mesh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidth_elec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(5,</span> <span class="pre">5)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elec_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module4_auxiliar.plot_electrodes" title="Permalink to this definition"></a></dt>
+<dd><p>Plot the electrodes on a mesh.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mesh</strong> (<em>Mesh</em>) – A mesh object.</p></li>
+<li><p><strong>linewidth_mesh</strong> (<em>int</em>) – The width of the mesh lines (default 1).</p></li>
+<li><p><strong>linewidth_elec</strong> (<em>int</em>) – The width of the electrode lines (default 5).</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em>) – The size of the figure (default (5,5)).</p></li>
+<li><p><strong>fontsize</strong> (<em>int</em>) – The font size of the electrode numbers (default 20).</p></li>
+<li><p><strong>elec_num</strong> (<em>bool</em>) – Whether to show electrode numbers (default True).</p></li>
+<li><p><strong>axis</strong> (<em>bool</em>) – Whether to show the axis (default False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The figure object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib.figure.Figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="module4_auxiliar.EstimateDelta">
+<span class="sig-prename descclassname"><span class="pre">module4_auxiliar.</span></span><span class="sig-name descname"><span class="pre">EstimateDelta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_U_noised</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#module4_auxiliar.EstimateDelta" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the noise level in potential measurements obtained from a grounded electrode system. The method was based on</p>
+<p>Robert Winkler work: A model-aware inexact Newton scheme for electrical impedance tomography, 2016.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list_U_noised</strong> (<em>numpy.ndarray</em>) – Noisy potential measurements with shape (l, L).</p></li>
+<li><p><strong>I</strong> (<em>numpy.ndarray</em>) – Current pattern matrix with shape (l, L).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A scalar value representing the estimated noise level in the potential measurements.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Notes<span class="colon">:</span></dt>
+<dd class="field-even"><p>The data must be measured through a grounded electrode, i.e., the sum of potential of each of the electrodes must be zero.</p>
+</dd>
+</dl>
+<p>This function estimates the noise level in potential measurements obtained from a grounded electrode system. It takes two
+arguments as inputs: <cite>list_U_noised</cite> and <cite>I</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="module4_auxiliar.ConvertingData">
+<span class="sig-prename descclassname"><span class="pre">module4_auxiliar.</span></span><span class="sig-name descname"><span class="pre">ConvertingData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module4_auxiliar.ConvertingData" title="Permalink to this definition"></a></dt>
+<dd><p>Convert data from different measurement patterns to the ground pattern.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> (<em>numpy.ndarray</em>) – The data to be converted.</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The measurement pattern to be converted to. Currently only “KIT4” is supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The converted data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="module4_auxiliar.EstimateCond">
+<span class="sig-prename descclassname"><span class="pre">module4_auxiliar.</span></span><span class="sig-name descname"><span class="pre">EstimateCond</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_U0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CONT'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module4_auxiliar.EstimateCond" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the conductivity of the background based on noisy voltage measurements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list_U0</strong> (<em>list</em>) – A list of noisy voltage measurements.</p></li>
+<li><p><strong>I</strong> (<em>numpy.ndarray</em>) – A current pattern matrix.</p></li>
+<li><p><strong>mesh</strong> (<em>Mesh</em>) – A mesh object.</p></li>
+<li><p><strong>z</strong> (<em>numpy.ndarray</em>) – The background impedance (default 1E-5).</p></li>
+<li><p><strong>method</strong> (<em>str</em>) – The method used for estimating conductivity. Options: “CONT”, “SHUNT”, “CEM1”, “CEM2”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the estimated conductivity and minimum potential.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple(float, float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="module4_auxiliar.EstimateCondIterative">
+<span class="sig-prename descclassname"><span class="pre">module4_auxiliar.</span></span><span class="sig-name descname"><span class="pre">EstimateCondIterative</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_U0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#module4_auxiliar.EstimateCondIterative" title="Permalink to this definition"></a></dt>
+<dd><p>Estimate the conductivity of the background based on noisy voltage measurements using an iterative approach.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>list_U0</strong> (<em>list</em>) – A list of noisy voltage measurements.</p></li>
+<li><p><strong>I</strong> (<em>numpy.ndarray</em>) – A current pattern matrix.</p></li>
+<li><p><strong>mesh</strong> (<em>Mesh</em>) – A mesh object.</p></li>
+<li><p><strong>z</strong> (<em>numpy.ndarray</em>) – The background impedance (default 1E-5).</p></li>
+<li><p><strong>zmin</strong> (<em>float</em>) – The minimum background impedance value (default 1E-5).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the estimated conductivity and impedance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple(float, float)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
