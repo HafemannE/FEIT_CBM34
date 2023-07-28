@@ -7,6 +7,5 @@
 #Ignore any image
 CBM/**/*.png
 CBM/**/*.data
-CBM/**/*.mat
 CBM/**/*.pdf
 CBM/**/*.jpg
